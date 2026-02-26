@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.example'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+application {
+    // Entry point found in src/gui/RobotsProgram.java
+    mainClass = 'gui.RobotsProgram'
+}
+
+// Eclipse project keeps sources in plain 'src' folder
+sourceSets {
+    main {
+        java { srcDirs = ['src'] }
+        resources { srcDirs = [] }
+    }
+    test {
+        java { srcDirs = [] }
+        resources { srcDirs = [] }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
