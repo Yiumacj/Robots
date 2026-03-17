@@ -1,17 +1,14 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.util.EnumMap;
+import java.util.Map;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -24,44 +21,30 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import log.Logger;
+import controller.ApplicationController;
+import model.AppWindowKey;
+import service.LocalizationService;
 
-public class MainApplicationFrame extends JFrame
+public class MainApplicationFrame extends JFrame implements LocalizableView
 {
-    private static final String CONFIG_FILE_NAME = ".robots.properties";
-    private static final String MAIN_WINDOW_KEY = "mainWindow";
-    private static final String LOG_WINDOW_KEY = "logWindow";
-    private static final String GAME_WINDOW_KEY = "gameWindow";
-    private static final String COORDINATES_WINDOW_KEY = "coordinatesWindow";
-
     private final JDesktopPane desktopPane = new JDesktopPane();
-    private final RobotModel robotModel = new RobotModel();
-    private final LogWindow logWindow;
-    private final GameWindow gameWindow;
-    private final RobotCoordinatesWindow coordinatesWindow;
+    private final Map<AppWindowKey, JInternalFrame> windows = new EnumMap<AppWindowKey, JInternalFrame>(AppWindowKey.class);
+    private final LocalizationService localizationService;
+    private final DesktopLauncherPanel desktopLauncherPanel;
+    private ApplicationController controller;
 
-    public MainApplicationFrame()
+    public MainApplicationFrame(LocalizationService localizationService)
     {
+        this.localizationService = localizationService;
         int inset = 50;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds(inset, inset,
-                screenSize.width - inset * 2,
-                screenSize.height - inset * 2);
+        setBounds(inset, inset, screenSize.width - inset * 2, screenSize.height - inset * 2);
 
+        desktopPane.setBackground(new Color(221, 232, 244));
+        desktopLauncherPanel = new DesktopLauncherPanel(localizationService);
+        desktopLauncherPanel.setBounds(24, 24, 360, 220);
+        desktopPane.add(desktopLauncherPanel, JDesktopPane.DEFAULT_LAYER);
         setContentPane(desktopPane);
-
-        logWindow = createLogWindow();
-        addWindow(logWindow);
-
-        gameWindow = new GameWindow(robotModel);
-        gameWindow.setSize(400, 400);
-        addWindow(gameWindow);
-
-        coordinatesWindow = createRobotCoordinatesWindow();
-        addWindow(coordinatesWindow);
-
-        restoreWindowGeometry();
-
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter()
@@ -69,235 +52,85 @@ public class MainApplicationFrame extends JFrame
             @Override
             public void windowClosing(WindowEvent e)
             {
-                exitApplication();
+                if (controller != null)
+                {
+                    controller.exit();
+                }
             }
         });
     }
 
-    protected LogWindow createLogWindow()
+    public void setController(ApplicationController controller)
     {
-        LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
-        logWindow.setLocation(10, 10);
-        logWindow.setSize(300, 800);
-        setMinimumSize(logWindow.getSize());
-        Logger.debug("Протокол работает");
-        return logWindow;
+        this.controller = controller;
+        desktopLauncherPanel.setController(controller);
     }
 
-    protected RobotCoordinatesWindow createRobotCoordinatesWindow()
+    public void addWindow(AppWindowKey key, JInternalFrame frame)
     {
-        RobotCoordinatesWindow window = new RobotCoordinatesWindow(robotModel);
-        window.setLocation(420, 10);
-        return window;
-    }
-
-    protected void addWindow(JInternalFrame frame)
-    {
-        desktopPane.add(frame);
+        windows.put(key, frame);
+        frame.setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
+        desktopPane.add(frame, JDesktopPane.PALETTE_LAYER);
         frame.setVisible(true);
     }
 
-    private JMenuBar generateMenuBar()
+    public JInternalFrame getWindow(AppWindowKey key)
     {
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.add(createFileMenu());
-        menuBar.add(createLookAndFeelMenu());
-        menuBar.add(createTestMenu());
-        return menuBar;
+        return windows.get(key);
     }
 
-    private JMenu createFileMenu()
+    public void activateWindow(AppWindowKey key)
     {
-        JMenu fileMenu = new JMenu("Файл");
-        fileMenu.setMnemonic(KeyEvent.VK_A);
-        fileMenu.getAccessibleContext().setAccessibleDescription(
-                "Команды работы с приложением");
+        JInternalFrame frame = windows.get(key);
+        if (frame == null)
+        {
+            return;
+        }
 
-        JMenuItem exitItem = new JMenuItem("Выход", KeyEvent.VK_X);
-        exitItem.addActionListener((event) -> exitApplication());
-        fileMenu.add(exitItem);
-        return fileMenu;
+        frame.setVisible(true);
+        try
+        {
+            if (frame.isClosed())
+            {
+                frame.setClosed(false);
+            }
+            frame.setIcon(false);
+            frame.setSelected(true);
+            frame.toFront();
+        }
+        catch (PropertyVetoException ignored)
+        {
+            // Visibility is enough if focus cannot be changed.
+        }
     }
 
-    private JMenu createLookAndFeelMenu()
-    {
-        JMenu lookAndFeelMenu = new JMenu("Режим отображения");
-        lookAndFeelMenu.setMnemonic(KeyEvent.VK_V);
-        lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(
-                "Управление режимом отображения приложения");
-
-        JMenuItem systemLookAndFeel = new JMenuItem("Системная схема", KeyEvent.VK_S);
-        systemLookAndFeel.addActionListener((event) -> {
-            setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            this.invalidate();
-        });
-        lookAndFeelMenu.add(systemLookAndFeel);
-
-        JMenuItem crossplatformLookAndFeel = new JMenuItem("Универсальная схема", KeyEvent.VK_U);
-        crossplatformLookAndFeel.addActionListener((event) -> {
-            setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            this.invalidate();
-        });
-        lookAndFeelMenu.add(crossplatformLookAndFeel);
-
-        return lookAndFeelMenu;
-    }
-
-    private JMenu createTestMenu()
-    {
-        JMenu testMenu = new JMenu("Тесты");
-        testMenu.setMnemonic(KeyEvent.VK_T);
-        testMenu.getAccessibleContext().setAccessibleDescription(
-                "Тестовые команды");
-
-        JMenuItem addLogMessageItem = new JMenuItem("Сообщение в лог", KeyEvent.VK_S);
-        addLogMessageItem.addActionListener((event) -> Logger.debug("Новая строка"));
-        testMenu.add(addLogMessageItem);
-
-        return testMenu;
-    }
-
-    private void exitApplication()
+    public boolean confirmExit()
     {
         int result = JOptionPane.showConfirmDialog(
                 this,
-                "Вы действительно хотите выйти?",
-                "Подтверждение выхода",
+                localizationService.get("dialog.exit.message"),
+                localizationService.get("dialog.exit.title"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
-
-        if (result == JOptionPane.YES_OPTION)
-        {
-            saveWindowGeometry();
-            dispose();
-            System.exit(0);
-        }
+        return result == JOptionPane.YES_OPTION;
     }
 
-    private void saveWindowGeometry()
+    public void showAboutDialog()
     {
-        Properties properties = new Properties();
-        saveMainWindowGeometry(properties, MAIN_WINDOW_KEY);
-        saveInternalWindowGeometry(properties, LOG_WINDOW_KEY, logWindow);
-        saveInternalWindowGeometry(properties, GAME_WINDOW_KEY, gameWindow);
-        saveInternalWindowGeometry(properties, COORDINATES_WINDOW_KEY, coordinatesWindow);
-
-        File configFile = getConfigFile();
-        try (FileOutputStream outputStream = new FileOutputStream(configFile))
-        {
-            properties.store(outputStream, "Robots application window state");
-        }
-        catch (IOException e)
-        {
-            Logger.error("Не удалось сохранить геометрию окон: " + e.getMessage());
-        }
+        JOptionPane.showMessageDialog(
+                this,
+                localizationService.get("dialog.about.message"),
+                localizationService.get("dialog.about.title"),
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void restoreWindowGeometry()
+    public void closeApplication()
     {
-        File configFile = getConfigFile();
-        if (!configFile.exists())
-        {
-            return;
-        }
-
-        Properties properties = new Properties();
-        try (FileInputStream inputStream = new FileInputStream(configFile))
-        {
-            properties.load(inputStream);
-        }
-        catch (IOException e)
-        {
-            Logger.error("Не удалось загрузить геометрию окон: " + e.getMessage());
-            return;
-        }
-
-        restoreMainWindowGeometry(properties, MAIN_WINDOW_KEY);
-        restoreInternalWindowGeometry(properties, LOG_WINDOW_KEY, logWindow);
-        restoreInternalWindowGeometry(properties, GAME_WINDOW_KEY, gameWindow);
-        restoreInternalWindowGeometry(properties, COORDINATES_WINDOW_KEY, coordinatesWindow);
+        dispose();
+        System.exit(0);
     }
 
-    private void saveMainWindowGeometry(Properties properties, String key)
-    {
-        saveBounds(properties, key, getBounds());
-        properties.setProperty(key + ".extendedState", Integer.toString(getExtendedState()));
-    }
-
-    private void restoreMainWindowGeometry(Properties properties, String key)
-    {
-        restoreBounds(properties, key, this);
-        setExtendedState(readInt(properties, key + ".extendedState", JFrame.NORMAL));
-    }
-
-    private void saveInternalWindowGeometry(Properties properties, String key, JInternalFrame frame)
-    {
-        saveBounds(properties, key, frame.getBounds());
-        properties.setProperty(key + ".icon", Boolean.toString(frame.isIcon()));
-        properties.setProperty(key + ".maximum", Boolean.toString(frame.isMaximum()));
-    }
-
-    private void restoreInternalWindowGeometry(Properties properties, String key, JInternalFrame frame)
-    {
-        restoreBounds(properties, key, frame);
-        try
-        {
-            frame.setIcon(Boolean.parseBoolean(properties.getProperty(key + ".icon", "false")));
-            frame.setMaximum(Boolean.parseBoolean(properties.getProperty(key + ".maximum", "false")));
-        }
-        catch (PropertyVetoException e)
-        {
-            Logger.error("Не удалось восстановить состояние окна '" + frame.getTitle() + "': " + e.getMessage());
-        }
-    }
-
-    private void saveBounds(Properties properties, String key, Rectangle bounds)
-    {
-        properties.setProperty(key + ".x", Integer.toString(bounds.x));
-        properties.setProperty(key + ".y", Integer.toString(bounds.y));
-        properties.setProperty(key + ".width", Integer.toString(bounds.width));
-        properties.setProperty(key + ".height", Integer.toString(bounds.height));
-    }
-
-    private void restoreBounds(Properties properties, String key, java.awt.Window window)
-    {
-        Rectangle bounds = readBounds(properties, key, window.getBounds());
-        window.setBounds(bounds);
-    }
-
-    private void restoreBounds(Properties properties, String key, JInternalFrame frame)
-    {
-        Rectangle bounds = readBounds(properties, key, frame.getBounds());
-        frame.setBounds(bounds);
-    }
-
-    private Rectangle readBounds(Properties properties, String key, Rectangle defaultBounds)
-    {
-        int x = readInt(properties, key + ".x", defaultBounds.x);
-        int y = readInt(properties, key + ".y", defaultBounds.y);
-        int width = readInt(properties, key + ".width", defaultBounds.width);
-        int height = readInt(properties, key + ".height", defaultBounds.height);
-        return new Rectangle(x, y, width, height);
-    }
-
-    private int readInt(Properties properties, String key, int defaultValue)
-    {
-        try
-        {
-            return Integer.parseInt(properties.getProperty(key, Integer.toString(defaultValue)));
-        }
-        catch (NumberFormatException e)
-        {
-            return defaultValue;
-        }
-    }
-
-    private File getConfigFile()
-    {
-        return new File(System.getProperty("user.home"), CONFIG_FILE_NAME);
-    }
-
-    private void setLookAndFeel(String className)
+    public void applyLookAndFeel(String className)
     {
         try
         {
@@ -307,7 +140,151 @@ public class MainApplicationFrame extends JFrame
         catch (ClassNotFoundException | InstantiationException
                | IllegalAccessException | UnsupportedLookAndFeelException e)
         {
-            // just ignore
+            // Ignore unsupported themes and keep the current one.
         }
+    }
+
+    @Override
+    public void updateTexts()
+    {
+        setTitle(localizationService.get("app.title"));
+        desktopLauncherPanel.updateTexts();
+        setJMenuBar(generateMenuBar());
+        revalidate();
+        repaint();
+    }
+
+    private JMenuBar generateMenuBar()
+    {
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(createFileMenu());
+        menuBar.add(createViewMenu());
+        menuBar.add(createWindowsMenu());
+        menuBar.add(createControlMenu());
+        menuBar.add(createSettingsMenu());
+        menuBar.add(createHelpMenu());
+        return menuBar;
+    }
+
+    private JMenu createFileMenu()
+    {
+        JMenu fileMenu = new JMenu(localizationService.get("menu.file"));
+        fileMenu.setMnemonic(KeyEvent.VK_A);
+
+        JMenuItem exitItem = new JMenuItem(localizationService.get("menu.file.exit"), KeyEvent.VK_X);
+        exitItem.addActionListener((event) -> {
+            if (controller != null)
+            {
+                controller.exit();
+            }
+        });
+        fileMenu.add(exitItem);
+        return fileMenu;
+    }
+
+    private JMenu createViewMenu()
+    {
+        JMenu viewMenu = new JMenu(localizationService.get("menu.view"));
+        viewMenu.setMnemonic(KeyEvent.VK_V);
+
+        JMenuItem systemLookAndFeel = new JMenuItem(localizationService.get("menu.view.system"), KeyEvent.VK_S);
+        systemLookAndFeel.addActionListener((event) -> {
+            if (controller != null)
+            {
+                controller.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            }
+        });
+        viewMenu.add(systemLookAndFeel);
+
+        JMenuItem crossPlatformLookAndFeel = new JMenuItem(localizationService.get("menu.view.cross_platform"), KeyEvent.VK_U);
+        crossPlatformLookAndFeel.addActionListener((event) -> {
+            if (controller != null)
+            {
+                controller.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            }
+        });
+        viewMenu.add(crossPlatformLookAndFeel);
+
+        JMenuItem nimbusLookAndFeel = new JMenuItem(localizationService.get("menu.view.nimbus"), KeyEvent.VK_N);
+        nimbusLookAndFeel.addActionListener((event) -> {
+            if (controller != null)
+            {
+                controller.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            }
+        });
+        viewMenu.add(nimbusLookAndFeel);
+
+        return viewMenu;
+    }
+
+    private JMenu createWindowsMenu()
+    {
+        JMenu windowsMenu = new JMenu(localizationService.get("menu.windows"));
+        windowsMenu.setMnemonic(KeyEvent.VK_W);
+        windowsMenu.add(createWindowItem(localizationService.get("menu.windows.game"), AppWindowKey.GAME));
+        windowsMenu.add(createWindowItem(localizationService.get("menu.windows.coordinates"), AppWindowKey.COORDINATES));
+        windowsMenu.add(createWindowItem(localizationService.get("menu.windows.log"), AppWindowKey.LOG));
+        windowsMenu.add(createWindowItem(localizationService.get("menu.windows.settings"), AppWindowKey.SETTINGS));
+        return windowsMenu;
+    }
+
+    private JMenuItem createWindowItem(String title, AppWindowKey key)
+    {
+        JMenuItem item = new JMenuItem(title);
+        item.addActionListener((event) -> {
+            if (controller != null)
+            {
+                controller.showWindow(key);
+            }
+        });
+        return item;
+    }
+
+    private JMenu createControlMenu()
+    {
+        JMenu controlMenu = new JMenu(localizationService.get("menu.control"));
+        controlMenu.setMnemonic(KeyEvent.VK_T);
+
+        JMenuItem addLogMessageItem = new JMenuItem(localizationService.get("menu.control.add_log"), KeyEvent.VK_L);
+        addLogMessageItem.addActionListener((event) -> {
+            if (controller != null)
+            {
+                controller.appendLogMessage();
+            }
+        });
+        controlMenu.add(addLogMessageItem);
+        return controlMenu;
+    }
+
+    private JMenu createSettingsMenu()
+    {
+        JMenu settingsMenu = new JMenu(localizationService.get("menu.settings"));
+        settingsMenu.setMnemonic(KeyEvent.VK_S);
+
+        JMenuItem openSettingsItem = new JMenuItem(localizationService.get("menu.settings.open"));
+        openSettingsItem.addActionListener((event) -> {
+            if (controller != null)
+            {
+                controller.openSettings();
+            }
+        });
+        settingsMenu.add(openSettingsItem);
+        return settingsMenu;
+    }
+
+    private JMenu createHelpMenu()
+    {
+        JMenu helpMenu = new JMenu(localizationService.get("menu.help"));
+        helpMenu.setMnemonic(KeyEvent.VK_H);
+
+        JMenuItem aboutItem = new JMenuItem(localizationService.get("menu.help.about"), KeyEvent.VK_A);
+        aboutItem.addActionListener((event) -> {
+            if (controller != null)
+            {
+                controller.showAbout();
+            }
+        });
+        helpMenu.add(aboutItem);
+        return helpMenu;
     }
 }

@@ -1,44 +1,46 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-public class GameWindow extends JInternalFrame
+import controller.GameController;
+import model.RobotState;
+import service.LocalizationService;
+
+public class GameWindow extends JInternalFrame implements RobotStateView, LocalizableView
 {
-    private final RobotModel model;
     private final GameVisualizer visualizer;
-    private final Timer timer = initTimer();
+    private final LocalizationService localizationService;
 
-    public GameWindow(RobotModel model)
+    public GameWindow(LocalizationService localizationService)
     {
-        super("Игровое поле", true, true, true, true);
-        this.model = model;
-        visualizer = new GameVisualizer(model);
+        super("", true, true, true, true);
+        this.localizationService = localizationService;
+        visualizer = new GameVisualizer();
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(visualizer, BorderLayout.CENTER);
         getContentPane().add(panel);
         pack();
-        startModelUpdates();
+        updateTexts();
     }
 
-    private static Timer initTimer()
+    public void setController(GameController controller)
     {
-        return new Timer("robot model timer", true);
+        visualizer.setController(controller);
     }
 
-    private void startModelUpdates()
+    @Override
+    public void render(RobotState state)
     {
-        timer.schedule(new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                model.update(10);
-            }
-        }, 0, 10);
+        SwingUtilities.invokeLater(() -> visualizer.render(state));
+    }
+
+    @Override
+    public void updateTexts()
+    {
+        setTitle(localizationService.get("window.game"));
     }
 }

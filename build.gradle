@@ -10,6 +10,10 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -23,11 +27,14 @@ application {
 // Eclipse project keeps sources in plain 'src' folder
 sourceSets {
     main {
-        java { srcDirs = ['src'] }
-        resources { srcDirs = [] }
+        java {
+            srcDirs = ['src']
+            exclude 'test/**'
+        }
+        resources { srcDirs = ['src/resources'] }
     }
     test {
-        java { srcDirs = [] }
+        java { srcDirs = ['src/test/java'] }
         resources { srcDirs = [] }
     }
 }

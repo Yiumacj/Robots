@@ -10,41 +10,51 @@ import javax.swing.JPanel;
 import log.LogChangeListener;
 import log.LogEntry;
 import log.LogWindowSource;
+import service.LocalizationService;
 
-public class LogWindow extends JInternalFrame implements LogChangeListener
+public class LogWindow extends JInternalFrame implements LogChangeListener, LocalizableView
 {
-    private LogWindowSource m_logSource;
-    private TextArea m_logContent;
+    private final LogWindowSource logSource;
+    private final TextArea logContent;
+    private final LocalizationService localizationService;
 
-    public LogWindow(LogWindowSource logSource) 
+    public LogWindow(LogWindowSource logSource, LocalizationService localizationService)
     {
-        super("Протокол работы", true, true, true, true);
-        m_logSource = logSource;
-        m_logSource.registerListener(this);
-        m_logContent = new TextArea("");
-        m_logContent.setSize(200, 500);
-        
+        super("", true, true, true, true);
+        this.logSource = logSource;
+        this.localizationService = localizationService;
+        this.logSource.registerListener(this);
+        logContent = new TextArea("");
+        logContent.setSize(200, 500);
+
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(m_logContent, BorderLayout.CENTER);
+        panel.add(logContent, BorderLayout.CENTER);
         getContentPane().add(panel);
         pack();
+        updateTexts();
         updateLogContent();
     }
 
     private void updateLogContent()
     {
         StringBuilder content = new StringBuilder();
-        for (LogEntry entry : m_logSource.all())
+        for (LogEntry entry : logSource.all())
         {
             content.append(entry.getMessage()).append("\n");
         }
-        m_logContent.setText(content.toString());
-        m_logContent.invalidate();
+        logContent.setText(content.toString());
+        logContent.invalidate();
     }
-    
+
     @Override
     public void onLogChanged()
     {
         EventQueue.invokeLater(this::updateLogContent);
+    }
+
+    @Override
+    public void updateTexts()
+    {
+        setTitle(localizationService.get("window.log"));
     }
 }

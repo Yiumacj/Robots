@@ -1,9 +1,8 @@
-package gui;
+package model;
 
 import java.awt.Point;
-import java.util.Observable;
 
-public class RobotModel extends Observable
+public class RobotModel
 {
     private volatile double robotPositionX = 100;
     private volatile double robotPositionY = 100;
@@ -15,36 +14,20 @@ public class RobotModel extends Observable
     private static final double MAX_VELOCITY = 0.1;
     private static final double MAX_ANGULAR_VELOCITY = 0.001;
 
-    public synchronized double getRobotPositionX()
+    public synchronized RobotState getState()
     {
-        return robotPositionX;
-    }
-
-    public synchronized double getRobotPositionY()
-    {
-        return robotPositionY;
-    }
-
-    public synchronized double getRobotDirection()
-    {
-        return robotDirection;
-    }
-
-    public synchronized int getTargetPositionX()
-    {
-        return targetPositionX;
-    }
-
-    public synchronized int getTargetPositionY()
-    {
-        return targetPositionY;
+        return new RobotState(robotPositionX, robotPositionY, robotDirection, targetPositionX, targetPositionY);
     }
 
     public synchronized void setTargetPosition(Point point)
     {
-        targetPositionX = point.x;
-        targetPositionY = point.y;
-        notifyStateChanged();
+        setTargetPosition(point.x, point.y);
+    }
+
+    public synchronized void setTargetPosition(int x, int y)
+    {
+        targetPositionX = x;
+        targetPositionY = y;
     }
 
     public synchronized void update(double duration)
@@ -70,7 +53,6 @@ public class RobotModel extends Observable
         }
 
         moveRobot(velocity, angularVelocity, duration);
-        notifyStateChanged();
     }
 
     private void moveRobot(double velocity, double angularVelocity, double duration)
@@ -95,12 +77,6 @@ public class RobotModel extends Observable
         robotPositionX = newX;
         robotPositionY = newY;
         robotDirection = asNormalizedRadians(robotDirection + angularVelocity * duration);
-    }
-
-    private void notifyStateChanged()
-    {
-        setChanged();
-        notifyObservers();
     }
 
     private static double distance(double x1, double y1, double x2, double y2)
@@ -130,7 +106,7 @@ public class RobotModel extends Observable
         return value;
     }
 
-    private static double asNormalizedRadians(double angle)
+    public static double asNormalizedRadians(double angle)
     {
         while (angle < 0)
         {
@@ -143,7 +119,7 @@ public class RobotModel extends Observable
         return angle;
     }
 
-    private static double asNormalizedRelativeRadians(double angle)
+    public static double asNormalizedRelativeRadians(double angle)
     {
         while (angle <= -Math.PI)
         {

@@ -3,28 +3,29 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class RobotCoordinatesWindow extends JInternalFrame implements Observer
+import service.LocalizationService;
+import model.RobotState;
+
+public class RobotCoordinatesWindow extends JInternalFrame implements RobotStateView, LocalizableView
 {
-    private final RobotModel model;
+    private final LocalizationService localizationService;
     private final JLabel robotXLabel = new JLabel();
     private final JLabel robotYLabel = new JLabel();
     private final JLabel directionLabel = new JLabel();
     private final JLabel targetXLabel = new JLabel();
     private final JLabel targetYLabel = new JLabel();
+    private RobotState state = new RobotState(100.0, 100.0, 0.0, 150, 100);
 
-    public RobotCoordinatesWindow(RobotModel model)
+    public RobotCoordinatesWindow(LocalizationService localizationService)
     {
-        super("Координаты робота", true, true, true, true);
-        this.model = model;
-        this.model.addObserver(this);
+        super("", true, true, true, true);
+        this.localizationService = localizationService;
 
         JPanel content = new JPanel(new GridLayout(0, 1, 5, 5));
         content.add(robotXLabel);
@@ -38,21 +39,26 @@ public class RobotCoordinatesWindow extends JInternalFrame implements Observer
         getContentPane().add(wrapper);
 
         setSize(260, 160);
-        updateLabels();
+        updateTexts();
     }
 
     @Override
-    public void update(Observable o, Object arg)
+    public void render(RobotState state)
     {
-        SwingUtilities.invokeLater(this::updateLabels);
+        this.state = state;
+        SwingUtilities.invokeLater(() -> {
+            setTitle(localizationService.get("window.coordinates"));
+            robotXLabel.setText(String.format(Locale.US, localizationService.get("coordinates.robot_x"), state.getRobotPositionX()));
+            robotYLabel.setText(String.format(Locale.US, localizationService.get("coordinates.robot_y"), state.getRobotPositionY()));
+            directionLabel.setText(String.format(Locale.US, localizationService.get("coordinates.direction"), state.getRobotDirection()));
+            targetXLabel.setText(String.format(Locale.US, localizationService.get("coordinates.target_x"), state.getTargetPositionX()));
+            targetYLabel.setText(String.format(Locale.US, localizationService.get("coordinates.target_y"), state.getTargetPositionY()));
+        });
     }
 
-    private void updateLabels()
+    @Override
+    public void updateTexts()
     {
-        robotXLabel.setText(String.format(Locale.US, "X робота: %.2f", model.getRobotPositionX()));
-        robotYLabel.setText(String.format(Locale.US, "Y робота: %.2f", model.getRobotPositionY()));
-        directionLabel.setText(String.format(Locale.US, "Направление: %.4f рад", model.getRobotDirection()));
-        targetXLabel.setText(String.format(Locale.US, "X цели: %d", model.getTargetPositionX()));
-        targetYLabel.setText(String.format(Locale.US, "Y цели: %d", model.getTargetPositionY()));
+        render(state);
     }
 }
