@@ -22,11 +22,13 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import controller.ApplicationController;
+import log.Logger;
 import model.AppWindowKey;
 import service.LocalizationService;
 
 public class MainApplicationFrame extends JFrame implements LocalizableView
 {
+    private static final String LOG_SOURCE = "gui.MainApplicationFrame";
     private final JDesktopPane desktopPane = new JDesktopPane();
     private final Map<AppWindowKey, JInternalFrame> windows = new EnumMap<AppWindowKey, JInternalFrame>(AppWindowKey.class);
     private final LocalizationService localizationService;
@@ -52,6 +54,7 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
             @Override
             public void windowClosing(WindowEvent e)
             {
+                Logger.info(LOG_SOURCE, "window_closing", "Main window close requested.");
                 if (controller != null)
                 {
                     controller.exit();
@@ -64,6 +67,7 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
     {
         this.controller = controller;
         desktopLauncherPanel.setController(controller);
+        Logger.debug(LOG_SOURCE, "controller_bound", "Controller attached to frame.");
     }
 
     public void addWindow(AppWindowKey key, JInternalFrame frame)
@@ -72,6 +76,7 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         frame.setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
         desktopPane.add(frame, JDesktopPane.PALETTE_LAYER);
         frame.setVisible(true);
+        Logger.info(LOG_SOURCE, "window_added", String.valueOf(key));
     }
 
     public JInternalFrame getWindow(AppWindowKey key)
@@ -84,6 +89,7 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         JInternalFrame frame = windows.get(key);
         if (frame == null)
         {
+            Logger.warn(LOG_SOURCE, "window_missing", String.valueOf(key));
             return;
         }
 
@@ -101,11 +107,13 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         catch (PropertyVetoException ignored)
         {
             // Visibility is enough if focus cannot be changed.
+            Logger.warn(LOG_SOURCE, "focus_change_rejected", String.valueOf(key));
         }
     }
 
     public boolean confirmExit()
     {
+        Logger.debug(LOG_SOURCE, "confirm_exit", "Showing exit confirmation dialog.");
         int result = JOptionPane.showConfirmDialog(
                 this,
                 localizationService.get("dialog.exit.message"),
@@ -117,6 +125,7 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
 
     public void showAboutDialog()
     {
+        Logger.debug(LOG_SOURCE, "show_about_dialog", "Showing about information dialog.");
         JOptionPane.showMessageDialog(
                 this,
                 localizationService.get("dialog.about.message"),
@@ -126,6 +135,7 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
 
     public void closeApplication()
     {
+        Logger.info(LOG_SOURCE, "close_application", "Disposing frame and exiting JVM.");
         dispose();
         System.exit(0);
     }
@@ -136,11 +146,13 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         {
             UIManager.setLookAndFeel(className);
             SwingUtilities.updateComponentTreeUI(this);
+            Logger.info(LOG_SOURCE, "look_and_feel_applied", className);
         }
         catch (ClassNotFoundException | InstantiationException
                | IllegalAccessException | UnsupportedLookAndFeelException e)
         {
             // Ignore unsupported themes and keep the current one.
+            Logger.warn(LOG_SOURCE, "look_and_feel_failed", className + " | " + e.getMessage());
         }
     }
 

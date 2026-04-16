@@ -7,11 +7,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import controller.GameController;
+import log.Logger;
 import model.RobotState;
 import service.LocalizationService;
 
 public class GameWindow extends JInternalFrame implements RobotStateView, LocalizableView
 {
+    private static final String LOG_SOURCE = "gui.GameWindow";
     private final GameVisualizer visualizer;
     private final LocalizationService localizationService;
 
@@ -30,6 +32,7 @@ public class GameWindow extends JInternalFrame implements RobotStateView, Locali
     public void setController(GameController controller)
     {
         visualizer.setController(controller);
+        Logger.debug(LOG_SOURCE, "controller_bound", "Game controller bound to visualizer.");
     }
 
     @Override

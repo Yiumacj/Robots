@@ -7,11 +7,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import gui.RobotStateView;
+import log.Logger;
 import model.RobotModel;
 import model.RobotState;
 
 public class DefaultGameController implements GameController
 {
+    private static final String LOG_SOURCE = "controller.DefaultGameController";
     private final RobotModel model;
     private final List<RobotStateView> views = new ArrayList<RobotStateView>();
     private Timer timer;
@@ -26,8 +28,10 @@ public class DefaultGameController implements GameController
     {
         if (timer != null)
         {
+            Logger.debug(LOG_SOURCE, "start_skipped", "Game timer is already running.");
             return;
         }
+        Logger.info(LOG_SOURCE, "start", "Starting local game timer.");
         timer = new Timer("robot model timer", true);
         timer.schedule(new TimerTask()
         {
@@ -47,6 +51,7 @@ public class DefaultGameController implements GameController
         {
             timer.cancel();
             timer = null;
+            Logger.info(LOG_SOURCE, "stop", "Local game timer stopped.");
         }
     }
 
@@ -54,12 +59,14 @@ public class DefaultGameController implements GameController
     public synchronized void addView(RobotStateView view)
     {
         views.add(view);
+        Logger.debug(LOG_SOURCE, "add_view", "View count=" + views.size());
         view.render(model.getState());
     }
 
     @Override
     public void setTargetPosition(Point point)
     {
+        Logger.debug(LOG_SOURCE, "set_target", "x=" + point.x + ", y=" + point.y);
         model.setTargetPosition(point);
         publishState();
     }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="selftest.SelfTestRunnerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-04-16T09:53:32.145Z" hostname="YIUMACJ" time="0.007">
+  <properties/>
+  <testcase name="discoversAndRunsRegisteredSelfTests" classname="selftest.SelfTestRunnerTest" time="0.007"/>
+  <system-out><![CDATA[[2026-04-16 14:53:32.147][Info][Test worker][selftest.SelfTestRunner] discovery | Discovered 2 self-tests.
+[2026-04-16 14:53:32.150][Info][Test worker][runtime.LaunchOptions] parse_args | mode=CLIENT, host=10.10.10.10, port=6000
+[2026-04-16 14:53:32.151][Info][Test worker][selftest.SelfTestRunner] test_passed | LaunchOptions parsing (0 ms)
+[2026-04-16 14:53:32.151][Info][Test worker][selftest.SelfTestRunner] test_passed | Wire protocol encode/decode (0 ms)
+[2026-04-16 14:53:32.152][Info][Test worker][selftest.SelfTestRunner] summary | total=2, failed=0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

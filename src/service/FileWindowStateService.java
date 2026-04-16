@@ -18,6 +18,7 @@ import model.AppWindowKey;
 
 public class FileWindowStateService implements ApplicationSettingsService
 {
+    private static final String LOG_SOURCE = "service.FileWindowStateService";
     private static final String CONFIG_FILE_NAME = ".robots.properties";
     private static final String MAIN_WINDOW_KEY = "mainWindow";
     private static final String LOCALE_KEY = "app.locale";
@@ -28,6 +29,7 @@ public class FileWindowStateService implements ApplicationSettingsService
         File configFile = getConfigFile();
         if (!configFile.exists())
         {
+            Logger.debug(LOG_SOURCE, "load_window_state_skip", "Config file not found: " + configFile.getAbsolutePath());
             return;
         }
 
@@ -38,7 +40,7 @@ public class FileWindowStateService implements ApplicationSettingsService
         }
         catch (IOException e)
         {
-            Logger.error("Не удалось загрузить геометрию окон: " + e.getMessage());
+            Logger.error(LOG_SOURCE, "load_window_state_failed", "Cannot load window geometry from " + configFile.getAbsolutePath(), e);
             return;
         }
 
@@ -51,11 +53,13 @@ public class FileWindowStateService implements ApplicationSettingsService
                 restoreInternalWindowGeometry(properties, key.getPropertyKey(), internalFrame);
             }
         }
+        Logger.info(LOG_SOURCE, "load_window_state_done", "Window geometry restored.");
     }
 
     @Override
     public void saveWindowState(MainApplicationFrame frame)
     {
+        Logger.debug(LOG_SOURCE, "save_window_state", "Saving frame and internal windows geometry.");
         Properties properties = loadProperties();
         saveMainWindowGeometry(properties, frame);
         for (AppWindowKey key : AppWindowKey.values())
@@ -74,7 +78,7 @@ public class FileWindowStateService implements ApplicationSettingsService
         }
         catch (IOException e)
         {
-            Logger.error("Не удалось сохранить геометрию окон: " + e.getMessage());
+            Logger.error(LOG_SOURCE, "save_window_state_failed", "Cannot save window geometry to " + configFile.getAbsolutePath(), e);
         }
     }
 
@@ -82,7 +86,9 @@ public class FileWindowStateService implements ApplicationSettingsService
     public AppLocale loadLocale()
     {
         Properties properties = loadProperties();
-        return AppLocale.fromCode(properties.getProperty(LOCALE_KEY, AppLocale.RU_RU.getCode()));
+        AppLocale locale = AppLocale.fromCode(properties.getProperty(LOCALE_KEY, AppLocale.RU_RU.getCode()));
+        Logger.info(LOG_SOURCE, "load_locale", "Loaded locale " + locale);
+        return locale;
     }
 
     @Override
@@ -90,6 +96,7 @@ public class FileWindowStateService implements ApplicationSettingsService
     {
         Properties properties = loadProperties();
         properties.setProperty(LOCALE_KEY, locale == null ? AppLocale.RU_RU.getCode() : locale.getCode());
+        Logger.info(LOG_SOURCE, "save_locale", "Saving locale " + (locale == null ? AppLocale.RU_RU : locale));
         storeProperties(properties);
     }
 
@@ -122,7 +129,7 @@ public class FileWindowStateService implements ApplicationSettingsService
         }
         catch (PropertyVetoException e)
         {
-            Logger.error("Не удалось восстановить состояние окна '" + frame.getTitle() + "': " + e.getMessage());
+            Logger.error(LOG_SOURCE, "restore_window_state_failed", "Cannot restore state for '" + frame.getTitle() + "'", e);
         }
     }
 
@@ -174,7 +181,7 @@ public class FileWindowStateService implements ApplicationSettingsService
         }
         catch (IOException e)
         {
-            Logger.error("Failed to load application settings: " + e.getMessage());
+            Logger.error(LOG_SOURCE, "load_properties_failed", "Failed to load application settings.", e);
         }
         return properties;
     }
@@ -188,7 +195,7 @@ public class FileWindowStateService implements ApplicationSettingsService
         }
         catch (IOException e)
         {
-            Logger.error("Failed to store application settings: " + e.getMessage());
+            Logger.error(LOG_SOURCE, "store_properties_failed", "Failed to store application settings.", e);
         }
     }
 }

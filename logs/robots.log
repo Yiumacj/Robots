@@ -1,0 +1,413 @@
+[2026-04-16 14:47:42.002][Info][Test worker][gui.MainApplicationFrame] window_added | LOG
+[2026-04-16 14:47:42.027][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:47:42.035][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:47:42.059][Debug][Test worker][controller.DefaultApplicationController] show_window | GAME
+[2026-04-16 14:47:42.071][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:47:42.077][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:47:42.082][Debug][Test worker][controller.DefaultApplicationController] open_settings | Opening settings window.
+[2026-04-16 14:47:42.085][Debug][Test worker][controller.DefaultApplicationController] show_window | SETTINGS
+[2026-04-16 14:47:42.095][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:47:42.100][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:47:42.103][Info][Test worker][controller.DefaultApplicationController] exit_requested | User requested application shutdown.
+[2026-04-16 14:47:42.104][Info][Test worker][controller.DefaultApplicationController] exit | Window state saved. Closing application.
+[2026-04-16 14:47:42.108][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-04-16 14:47:42.108][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-04-16 14:47:42.109][Debug][Test worker][controller.DefaultGameController] set_target | x=222, y=111
+[2026-04-16 14:47:42.109][Debug][Test worker][model.RobotModel] set_target | x=222, y=111
+[2026-04-16 14:47:42.583][Info][Test worker][network.RobotGameServer] start | Server started on port 54518
+[2026-04-16 14:47:42.583][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:54518
+[2026-04-16 14:47:42.590][Info][robot-server-accept-54518][network.RobotGameServer] client_connected | 4b996056-f528-42c8-b7c5-eb1a1196c423
+[2026-04-16 14:47:42.633][Debug][pool-1-thread-1][model.RobotModel] set_target | x=120, y=90
+[2026-04-16 14:47:42.633][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=4b996056-f528-42c8-b7c5-eb1a1196c423, x=120, y=90
+[2026-04-16 14:47:42.634][Debug][pool-1-thread-1][model.RobotModel] set_target | x=180, y=140
+[2026-04-16 14:47:42.634][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=4b996056-f528-42c8-b7c5-eb1a1196c423, x=180, y=140
+[2026-04-16 14:47:42.635][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:47:42.635][Info][pool-1-thread-1][network.RobotGameServer] client_disconnected | 4b996056-f528-42c8-b7c5-eb1a1196c423
+[2026-04-16 14:47:42.635][Error][robot-client-reader-localhost-54518][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:47:42.636][Warning][robot-client-reader-localhost-54518][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:47:42.637][Info][Test worker][network.RobotGameServer] start | Server started on port 54520
+[2026-04-16 14:47:42.637][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:54520
+[2026-04-16 14:47:42.637][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:54520
+[2026-04-16 14:47:42.637][Info][robot-server-accept-54520][network.RobotGameServer] client_connected | 5be3989c-3825-4549-a2f7-9935f69732af
+[2026-04-16 14:47:42.639][Info][robot-server-accept-54520][network.RobotGameServer] client_connected | 5cd1d3c1-d725-43e9-b93f-61d74e72ecca
+[2026-04-16 14:47:42.640][Debug][pool-2-thread-1][model.RobotModel] set_target | x=300, y=220
+[2026-04-16 14:47:42.640][Debug][pool-2-thread-1][network.RobotGameServer] set_target | client=5be3989c-3825-4549-a2f7-9935f69732af, x=300, y=220
+[2026-04-16 14:47:42.641][Info][pool-2-thread-1][network.RobotGameServer] client_disconnected | 5be3989c-3825-4549-a2f7-9935f69732af
+[2026-04-16 14:47:42.641][Info][pool-2-thread-2][network.RobotGameServer] client_disconnected | 5cd1d3c1-d725-43e9-b93f-61d74e72ecca
+[2026-04-16 14:47:42.641][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:47:42.641][Error][robot-client-reader-localhost-54520][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:47:42.641][Error][robot-client-reader-localhost-54520][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:47:42.643][Warning][robot-client-reader-localhost-54520][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:47:42.643][Warning][robot-client-reader-localhost-54520][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:47:42.649][Warning][Test worker][runtime.LaunchOptions] invalid_port | Cannot parse port 'abc', fallback=5050
+[2026-04-16 14:47:42.649][Info][Test worker][runtime.LaunchOptions] parse_args | mode=LOCAL, host=localhost, port=5050
+[2026-04-16 14:47:42.650][Info][Test worker][runtime.LaunchOptions] parse_args | mode=CLIENT, host=10.10.0.7, port=5501
+[2026-04-16 14:47:42.662][Info][Test worker][gui.MainApplicationFrame] window_added | GAME
+[2026-04-16 14:47:42.662][Debug][Test worker][service.FileWindowStateService] save_window_state | Saving frame and internal windows geometry.
+[2026-04-16 14:47:42.672][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
+[2026-04-16 14:47:42.686][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
+[2026-04-16 14:48:04.218][Info][Test worker][gui.MainApplicationFrame] window_added | LOG
+[2026-04-16 14:48:04.242][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:48:04.248][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:48:04.272][Debug][Test worker][controller.DefaultApplicationController] show_window | GAME
+[2026-04-16 14:48:04.286][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:48:04.289][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:48:04.295][Debug][Test worker][controller.DefaultApplicationController] open_settings | Opening settings window.
+[2026-04-16 14:48:04.296][Debug][Test worker][controller.DefaultApplicationController] show_window | SETTINGS
+[2026-04-16 14:48:04.312][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:48:04.316][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:48:04.334][Info][Test worker][controller.DefaultApplicationController] exit_requested | User requested application shutdown.
+[2026-04-16 14:48:04.335][Info][Test worker][controller.DefaultApplicationController] exit | Window state saved. Closing application.
+[2026-04-16 14:48:04.343][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-04-16 14:48:04.344][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-04-16 14:48:04.344][Debug][Test worker][controller.DefaultGameController] set_target | x=222, y=111
+[2026-04-16 14:48:04.345][Debug][Test worker][model.RobotModel] set_target | x=222, y=111
+[2026-04-16 14:48:04.876][Info][Test worker][network.RobotGameServer] start | Server started on port 56925
+[2026-04-16 14:48:04.877][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:56925
+[2026-04-16 14:48:04.884][Info][robot-server-accept-56925][network.RobotGameServer] client_connected | 663fee7f-bb4b-4ba7-b105-bc8264e86410
+[2026-04-16 14:48:04.928][Debug][pool-1-thread-1][model.RobotModel] set_target | x=120, y=90
+[2026-04-16 14:48:04.928][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=663fee7f-bb4b-4ba7-b105-bc8264e86410, x=120, y=90
+[2026-04-16 14:48:04.928][Debug][pool-1-thread-1][model.RobotModel] set_target | x=180, y=140
+[2026-04-16 14:48:04.929][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=663fee7f-bb4b-4ba7-b105-bc8264e86410, x=180, y=140
+[2026-04-16 14:48:04.929][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:48:04.929][Info][pool-1-thread-1][network.RobotGameServer] client_disconnected | 663fee7f-bb4b-4ba7-b105-bc8264e86410
+[2026-04-16 14:48:04.929][Error][robot-client-reader-localhost-56925][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:48:04.931][Warning][robot-client-reader-localhost-56925][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:48:04.932][Info][Test worker][network.RobotGameServer] start | Server started on port 56927
+[2026-04-16 14:48:04.932][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:56927
+[2026-04-16 14:48:04.934][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:56927
+[2026-04-16 14:48:04.934][Info][robot-server-accept-56927][network.RobotGameServer] client_connected | 1ea7eb5e-68f2-41a0-97ea-e726b1f8cb06
+[2026-04-16 14:48:04.934][Info][robot-server-accept-56927][network.RobotGameServer] client_connected | 12d630e2-0788-4ec6-9141-96cf5a9cc8d8
+[2026-04-16 14:48:04.935][Debug][pool-2-thread-1][model.RobotModel] set_target | x=300, y=220
+[2026-04-16 14:48:04.936][Debug][pool-2-thread-1][network.RobotGameServer] set_target | client=1ea7eb5e-68f2-41a0-97ea-e726b1f8cb06, x=300, y=220
+[2026-04-16 14:48:04.936][Info][pool-2-thread-1][network.RobotGameServer] client_disconnected | 1ea7eb5e-68f2-41a0-97ea-e726b1f8cb06
+[2026-04-16 14:48:04.936][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:48:04.936][Info][pool-2-thread-2][network.RobotGameServer] client_disconnected | 12d630e2-0788-4ec6-9141-96cf5a9cc8d8
+[2026-04-16 14:48:04.936][Error][robot-client-reader-localhost-56927][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:48:04.936][Error][robot-client-reader-localhost-56927][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:48:04.940][Warning][robot-client-reader-localhost-56927][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:48:04.940][Warning][robot-client-reader-localhost-56927][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:48:04.944][Warning][Test worker][runtime.LaunchOptions] invalid_port | Cannot parse port 'abc', fallback=5050
+[2026-04-16 14:48:04.944][Info][Test worker][runtime.LaunchOptions] parse_args | mode=LOCAL, host=localhost, port=5050
+[2026-04-16 14:48:04.945][Info][Test worker][runtime.LaunchOptions] parse_args | mode=CLIENT, host=10.10.0.7, port=5501
+[2026-04-16 14:48:04.958][Info][Test worker][gui.MainApplicationFrame] window_added | GAME
+[2026-04-16 14:48:04.959][Debug][Test worker][service.FileWindowStateService] save_window_state | Saving frame and internal windows geometry.
+[2026-04-16 14:48:04.969][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
+[2026-04-16 14:48:04.983][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
+[2026-04-16 14:53:02.920][Info][Test worker][gui.MainApplicationFrame] window_added | LOG
+[2026-04-16 14:53:02.947][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:53:02.954][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:53:02.980][Debug][Test worker][controller.DefaultApplicationController] show_window | GAME
+[2026-04-16 14:53:02.992][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:53:02.996][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:53:03.001][Debug][Test worker][controller.DefaultApplicationController] open_settings | Opening settings window.
+[2026-04-16 14:53:03.002][Debug][Test worker][controller.DefaultApplicationController] show_window | SETTINGS
+[2026-04-16 14:53:03.013][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:53:03.017][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:53:03.020][Info][Test worker][controller.DefaultApplicationController] exit_requested | User requested application shutdown.
+[2026-04-16 14:53:03.021][Info][Test worker][controller.DefaultApplicationController] exit | Window state saved. Closing application.
+[2026-04-16 14:53:03.026][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-04-16 14:53:03.027][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-04-16 14:53:03.027][Debug][Test worker][controller.DefaultGameController] set_target | x=222, y=111
+[2026-04-16 14:53:03.027][Debug][Test worker][model.RobotModel] set_target | x=222, y=111
+[2026-04-16 14:53:03.535][Info][Test worker][network.RobotGameServer] start | Server started on port 64632
+[2026-04-16 14:53:03.536][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64632
+[2026-04-16 14:53:03.542][Info][robot-server-accept-64632][network.RobotGameServer] client_connected | 9c01c61f-9669-47eb-979d-6d4c47a8ba85
+[2026-04-16 14:53:03.588][Debug][pool-1-thread-1][model.RobotModel] set_target | x=120, y=90
+[2026-04-16 14:53:03.589][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=9c01c61f-9669-47eb-979d-6d4c47a8ba85, x=120, y=90
+[2026-04-16 14:53:03.589][Debug][pool-1-thread-1][model.RobotModel] set_target | x=180, y=140
+[2026-04-16 14:53:03.589][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=9c01c61f-9669-47eb-979d-6d4c47a8ba85, x=180, y=140
+[2026-04-16 14:53:03.591][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:53:03.591][Info][pool-1-thread-1][network.RobotGameServer] client_disconnected | 9c01c61f-9669-47eb-979d-6d4c47a8ba85
+[2026-04-16 14:53:03.591][Error][robot-client-reader-localhost-64632][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:03.593][Warning][robot-client-reader-localhost-64632][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:53:03.594][Info][Test worker][network.RobotGameServer] start | Server started on port 64634
+[2026-04-16 14:53:03.595][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64634
+[2026-04-16 14:53:03.595][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64634
+[2026-04-16 14:53:03.596][Info][robot-server-accept-64634][network.RobotGameServer] client_connected | 1697729d-6a32-44d7-ae82-ca151ba8bfd5
+[2026-04-16 14:53:03.597][Info][robot-server-accept-64634][network.RobotGameServer] client_connected | 18f37109-6d57-4123-ad63-184814034206
+[2026-04-16 14:53:03.598][Debug][pool-2-thread-1][model.RobotModel] set_target | x=300, y=220
+[2026-04-16 14:53:03.598][Debug][pool-2-thread-1][network.RobotGameServer] set_target | client=1697729d-6a32-44d7-ae82-ca151ba8bfd5, x=300, y=220
+[2026-04-16 14:53:03.600][Info][pool-2-thread-1][network.RobotGameServer] client_disconnected | 1697729d-6a32-44d7-ae82-ca151ba8bfd5
+[2026-04-16 14:53:03.600][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:53:03.600][Error][robot-client-reader-localhost-64634][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:03.600][Error][pool-2-thread-2][network.RobotGameServer] client_read_failed | Client read error for 18f37109-6d57-4123-ad63-184814034206
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.read(SocketInputStream.java:204)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameServer.handleClient(RobotGameServer.java:166)
+	at network.RobotGameServer.lambda$null$0(RobotGameServer.java:146)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:03.601][Warning][robot-client-reader-localhost-64634][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:53:03.600][Error][robot-client-reader-localhost-64634][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:03.602][Info][pool-2-thread-2][network.RobotGameServer] client_disconnected | 18f37109-6d57-4123-ad63-184814034206
+[2026-04-16 14:53:03.603][Warning][robot-client-reader-localhost-64634][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:53:03.608][Warning][Test worker][runtime.LaunchOptions] invalid_port | Cannot parse port 'abc', fallback=5050
+[2026-04-16 14:53:03.609][Info][Test worker][runtime.LaunchOptions] parse_args | mode=LOCAL, host=localhost, port=5050
+[2026-04-16 14:53:03.609][Info][Test worker][runtime.LaunchOptions] parse_args | mode=CLIENT, host=10.10.0.7, port=5501
+[2026-04-16 14:53:03.613][Info][Test worker][selftest.SelfTestRunner] discovery | Discovered 2 self-tests.
+[2026-04-16 14:53:03.614][Info][Test worker][runtime.LaunchOptions] parse_args | mode=CLIENT, host=10.10.10.10, port=6000
+[2026-04-16 14:53:03.615][Info][Test worker][selftest.SelfTestRunner] test_passed | LaunchOptions parsing (0 ms)
+[2026-04-16 14:53:03.615][Info][Test worker][selftest.SelfTestRunner] test_passed | Wire protocol encode/decode (0 ms)
+[2026-04-16 14:53:03.617][Info][Test worker][selftest.SelfTestRunner] summary | total=2, failed=0
+[2026-04-16 14:53:03.631][Info][Test worker][gui.MainApplicationFrame] window_added | GAME
+[2026-04-16 14:53:03.633][Debug][Test worker][service.FileWindowStateService] save_window_state | Saving frame and internal windows geometry.
+[2026-04-16 14:53:03.645][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
+[2026-04-16 14:53:03.660][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
+[2026-04-16 14:53:31.461][Info][Test worker][gui.MainApplicationFrame] window_added | LOG
+[2026-04-16 14:53:31.491][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:53:31.499][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:53:31.526][Debug][Test worker][controller.DefaultApplicationController] show_window | GAME
+[2026-04-16 14:53:31.540][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:53:31.545][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:53:31.550][Debug][Test worker][controller.DefaultApplicationController] open_settings | Opening settings window.
+[2026-04-16 14:53:31.551][Debug][Test worker][controller.DefaultApplicationController] show_window | SETTINGS
+[2026-04-16 14:53:31.563][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-04-16 14:53:31.567][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-04-16 14:53:31.571][Info][Test worker][controller.DefaultApplicationController] exit_requested | User requested application shutdown.
+[2026-04-16 14:53:31.572][Info][Test worker][controller.DefaultApplicationController] exit | Window state saved. Closing application.
+[2026-04-16 14:53:31.576][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-04-16 14:53:31.576][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-04-16 14:53:31.578][Debug][Test worker][controller.DefaultGameController] set_target | x=222, y=111
+[2026-04-16 14:53:31.578][Debug][Test worker][model.RobotModel] set_target | x=222, y=111
+[2026-04-16 14:53:32.069][Info][Test worker][network.RobotGameServer] start | Server started on port 64656
+[2026-04-16 14:53:32.070][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64656
+[2026-04-16 14:53:32.078][Info][robot-server-accept-64656][network.RobotGameServer] client_connected | f677080b-b522-4e58-84ec-cf9f205ddfa2
+[2026-04-16 14:53:32.122][Debug][pool-1-thread-1][model.RobotModel] set_target | x=120, y=90
+[2026-04-16 14:53:32.122][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=f677080b-b522-4e58-84ec-cf9f205ddfa2, x=120, y=90
+[2026-04-16 14:53:32.123][Debug][pool-1-thread-1][model.RobotModel] set_target | x=180, y=140
+[2026-04-16 14:53:32.123][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=f677080b-b522-4e58-84ec-cf9f205ddfa2, x=180, y=140
+[2026-04-16 14:53:32.124][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:53:32.124][Info][pool-1-thread-1][network.RobotGameServer] client_disconnected | f677080b-b522-4e58-84ec-cf9f205ddfa2
+[2026-04-16 14:53:32.124][Error][robot-client-reader-localhost-64656][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:32.126][Warning][robot-client-reader-localhost-64656][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:53:32.127][Info][Test worker][network.RobotGameServer] start | Server started on port 64658
+[2026-04-16 14:53:32.127][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64658
+[2026-04-16 14:53:32.129][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64658
+[2026-04-16 14:53:32.129][Info][robot-server-accept-64658][network.RobotGameServer] client_connected | 5bab15a4-3fa8-4b77-8e29-a4944ad87a8f
+[2026-04-16 14:53:32.131][Info][robot-server-accept-64658][network.RobotGameServer] client_connected | 40868bb9-66ce-4734-b6d6-0ac83c050c74
+[2026-04-16 14:53:32.132][Debug][pool-2-thread-1][model.RobotModel] set_target | x=300, y=220
+[2026-04-16 14:53:32.133][Debug][pool-2-thread-1][network.RobotGameServer] set_target | client=5bab15a4-3fa8-4b77-8e29-a4944ad87a8f, x=300, y=220
+[2026-04-16 14:53:32.133][Info][pool-2-thread-1][network.RobotGameServer] client_disconnected | 5bab15a4-3fa8-4b77-8e29-a4944ad87a8f
+[2026-04-16 14:53:32.133][Info][pool-2-thread-2][network.RobotGameServer] client_disconnected | 40868bb9-66ce-4734-b6d6-0ac83c050c74
+[2026-04-16 14:53:32.133][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:53:32.133][Error][robot-client-reader-localhost-64658][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:32.133][Error][robot-client-reader-localhost-64658][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:32.134][Warning][robot-client-reader-localhost-64658][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:53:32.136][Warning][robot-client-reader-localhost-64658][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:53:32.142][Warning][Test worker][runtime.LaunchOptions] invalid_port | Cannot parse port 'abc', fallback=5050
+[2026-04-16 14:53:32.143][Info][Test worker][runtime.LaunchOptions] parse_args | mode=LOCAL, host=localhost, port=5050
+[2026-04-16 14:53:32.144][Info][Test worker][runtime.LaunchOptions] parse_args | mode=CLIENT, host=10.10.0.7, port=5501
+[2026-04-16 14:53:32.147][Info][Test worker][selftest.SelfTestRunner] discovery | Discovered 2 self-tests.
+[2026-04-16 14:53:32.150][Info][Test worker][runtime.LaunchOptions] parse_args | mode=CLIENT, host=10.10.10.10, port=6000
+[2026-04-16 14:53:32.151][Info][Test worker][selftest.SelfTestRunner] test_passed | LaunchOptions parsing (0 ms)
+[2026-04-16 14:53:32.151][Info][Test worker][selftest.SelfTestRunner] test_passed | Wire protocol encode/decode (0 ms)
+[2026-04-16 14:53:32.152][Info][Test worker][selftest.SelfTestRunner] summary | total=2, failed=0
+[2026-04-16 14:53:32.164][Info][Test worker][gui.MainApplicationFrame] window_added | GAME
+[2026-04-16 14:53:32.164][Debug][Test worker][service.FileWindowStateService] save_window_state | Saving frame and internal windows geometry.
+[2026-04-16 14:53:32.175][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
+[2026-04-16 14:53:32.192][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.

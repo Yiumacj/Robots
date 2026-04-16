@@ -10,11 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.ApplicationController;
+import log.Logger;
 import model.AppLocale;
 import service.LocalizationService;
 
 public class SettingsWindow extends JInternalFrame implements LocalizableView
 {
+    private static final String LOG_SOURCE = "gui.SettingsWindow";
     private final LocalizationService localizationService;
     private final JComboBox<AppLocale> localeComboBox = new JComboBox<AppLocale>(AppLocale.values());
     private final JLabel languageLabel = new JLabel();
@@ -40,7 +42,9 @@ public class SettingsWindow extends JInternalFrame implements LocalizableView
         applyButton.addActionListener(event -> {
             if (controller != null)
             {
-                controller.changeLocale((AppLocale) localeComboBox.getSelectedItem());
+                AppLocale selectedLocale = (AppLocale) localeComboBox.getSelectedItem();
+                Logger.info(LOG_SOURCE, "apply_locale", String.valueOf(selectedLocale));
+                controller.changeLocale(selectedLocale);
             }
         });
 
@@ -51,6 +55,7 @@ public class SettingsWindow extends JInternalFrame implements LocalizableView
     public void setController(ApplicationController controller)
     {
         this.controller = controller;
+        Logger.debug(LOG_SOURCE, "controller_bound", "Settings controller attached.");
     }
 
     public void setSelectedLocale(AppLocale locale)

@@ -18,6 +18,8 @@ import service.LocalizationService;
 
 public class DefaultApplicationController implements ApplicationController
 {
+    private static final String LOG_SOURCE = "controller.DefaultApplicationController";
+
     private final MainApplicationFrame frame;
     private final GameController gameController;
     private final LogWindow logWindow;
@@ -51,6 +53,7 @@ public class DefaultApplicationController implements ApplicationController
     @Override
     public void start()
     {
+        Logger.info(LOG_SOURCE, "start", "Initializing application windows and game loop.");
         frame.addWindow(AppWindowKey.LOG, logWindow);
         frame.addWindow(AppWindowKey.GAME, gameWindow);
         frame.addWindow(AppWindowKey.COORDINATES, coordinatesWindow);
@@ -60,25 +63,29 @@ public class DefaultApplicationController implements ApplicationController
         settingsWindow.setSelectedLocale(localizationService.getCurrentLocale());
         settingsService.loadWindowState(frame);
         refreshLocalizedUi();
-        Logger.debug(localizationService.get("log.protocol_started"));
+        Logger.debug(LOG_SOURCE, "start", localizationService.get("log.protocol_started"));
         gameController.start();
     }
 
     @Override
     public void exit()
     {
+        Logger.info(LOG_SOURCE, "exit_requested", "User requested application shutdown.");
         if (!frame.confirmExit())
         {
+            Logger.debug(LOG_SOURCE, "exit_cancelled", "Exit dialog declined by user.");
             return;
         }
         gameController.stop();
         settingsService.saveWindowState(frame);
+        Logger.info(LOG_SOURCE, "exit", "Window state saved. Closing application.");
         frame.closeApplication();
     }
 
     @Override
     public void setLookAndFeel(String className)
     {
+        Logger.info(LOG_SOURCE, "set_look_and_feel", className);
         frame.applyLookAndFeel(className);
         frame.invalidate();
     }
@@ -86,12 +93,14 @@ public class DefaultApplicationController implements ApplicationController
     @Override
     public void showWindow(AppWindowKey key)
     {
+        Logger.debug(LOG_SOURCE, "show_window", String.valueOf(key));
         frame.activateWindow(key);
     }
 
     @Override
     public void openSettings()
     {
+        Logger.debug(LOG_SOURCE, "open_settings", "Opening settings window.");
         settingsWindow.setSelectedLocale(localizationService.getCurrentLocale());
         showWindow(AppWindowKey.SETTINGS);
     }
@@ -99,6 +108,7 @@ public class DefaultApplicationController implements ApplicationController
     @Override
     public void changeLocale(AppLocale locale)
     {
+        Logger.info(LOG_SOURCE, "change_locale", String.valueOf(locale));
         localizationService.setCurrentLocale(locale);
         settingsService.saveLocale(localizationService.getCurrentLocale());
         refreshLocalizedUi();
@@ -107,18 +117,20 @@ public class DefaultApplicationController implements ApplicationController
     @Override
     public void appendLogMessage()
     {
-        Logger.debug(localizationService.get("log.new_line"));
+        Logger.debug(LOG_SOURCE, "append_log_message", localizationService.get("log.new_line"));
         showWindow(AppWindowKey.LOG);
     }
 
     @Override
     public void showAbout()
     {
+        Logger.debug(LOG_SOURCE, "show_about", "Showing about dialog.");
         frame.showAboutDialog();
     }
 
     private void refreshLocalizedUi()
     {
+        Logger.debug(LOG_SOURCE, "refresh_localized_ui", "Applying locale and refreshing texts.");
         Locale.setDefault(localizationService.getCurrentLocale().toLocale());
         UIManager.put("OptionPane.yesButtonText", localizationService.get("option.yes"));
         UIManager.put("OptionPane.noButtonText", localizationService.get("option.no"));

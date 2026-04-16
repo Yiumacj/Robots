@@ -3,10 +3,12 @@ package service;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import log.Logger;
 import model.AppLocale;
 
 public class ResourceBundleLocalizationService implements LocalizationService
 {
+    private static final String LOG_SOURCE = "service.ResourceBundleLocalizationService";
     private static final String BUNDLE_NAME = "i18n.messages";
 
     private AppLocale currentLocale = AppLocale.RU_RU;
@@ -21,6 +23,7 @@ public class ResourceBundleLocalizationService implements LocalizationService
         }
         catch (MissingResourceException ex)
         {
+            Logger.warn(LOG_SOURCE, "missing_key", "Missing translation key '" + key + "' for locale " + currentLocale);
             ResourceBundle fallbackBundle = ResourceBundle.getBundle(BUNDLE_NAME, AppLocale.RU_RU.toLocale());
             return fallbackBundle.containsKey(key) ? fallbackBundle.getString(key) : key;
         }
@@ -37,5 +40,6 @@ public class ResourceBundleLocalizationService implements LocalizationService
     {
         currentLocale = locale == null ? AppLocale.RU_RU : locale;
         bundle = ResourceBundle.getBundle(BUNDLE_NAME, currentLocale.toLocale());
+        Logger.info(LOG_SOURCE, "set_locale", "Locale switched to " + currentLocale);
     }
 }

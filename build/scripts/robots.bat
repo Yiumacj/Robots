@@ -70,7 +70,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\robots-1.0.0.jar
+set CLASSPATH=%APP_HOME%\lib\robots-1.0.0.jar;%APP_HOME%\lib\gson-2.10.1.jar
 
 
 @rem Execute robots

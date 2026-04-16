@@ -2,8 +2,12 @@ package model;
 
 import java.awt.Point;
 
+import log.Logger;
+
 public class RobotModel
 {
+    private static final String LOG_SOURCE = "model.RobotModel";
+
     private volatile double robotPositionX = 100;
     private volatile double robotPositionY = 100;
     private volatile double robotDirection = 0;
@@ -21,6 +25,7 @@ public class RobotModel
 
     public synchronized void setTargetPosition(Point point)
     {
+        Logger.debug(LOG_SOURCE, "set_target", "x=" + point.x + ", y=" + point.y);
         setTargetPosition(point.x, point.y);
     }
 

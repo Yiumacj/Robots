@@ -8,10 +8,12 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JPanel;
 
 import controller.GameController;
+import log.Logger;
 import model.RobotState;
 
 public class GameVisualizer extends JPanel
 {
+    private static final String LOG_SOURCE = "gui.GameVisualizer";
     private static final RobotState DEFAULT_STATE = new RobotState(100.0, 100.0, 0.0, 150, 100);
 
     private GameController controller;
@@ -26,6 +28,7 @@ public class GameVisualizer extends JPanel
             {
                 if (controller != null)
                 {
+                    Logger.debug(LOG_SOURCE, "mouse_clicked", "x=" + e.getX() + ", y=" + e.getY());
                     controller.setTargetPosition(e.getPoint());
                 }
             }

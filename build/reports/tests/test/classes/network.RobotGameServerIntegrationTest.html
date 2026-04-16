@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class network.RobotGameServerIntegrationTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class network.RobotGameServerIntegrationTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/network.html">network</a> &gt; RobotGameServerIntegrationTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.070s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+<li>
+<a href="#">Standard error</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">lastWriteWinsForSequentialCommands</td>
+<td class="success">0.061s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">serverAcceptsMultipleClientsAndPropagatesTargetChanges</td>
+<td class="success">0.009s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>[2026-04-16 14:53:32.069][Info][Test worker][network.RobotGameServer] start | Server started on port 64656
+[2026-04-16 14:53:32.070][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64656
+[2026-04-16 14:53:32.078][Info][robot-server-accept-64656][network.RobotGameServer] client_connected | f677080b-b522-4e58-84ec-cf9f205ddfa2
+[2026-04-16 14:53:32.122][Debug][pool-1-thread-1][model.RobotModel] set_target | x=120, y=90
+[2026-04-16 14:53:32.122][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=f677080b-b522-4e58-84ec-cf9f205ddfa2, x=120, y=90
+[2026-04-16 14:53:32.123][Debug][pool-1-thread-1][model.RobotModel] set_target | x=180, y=140
+[2026-04-16 14:53:32.123][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=f677080b-b522-4e58-84ec-cf9f205ddfa2, x=180, y=140
+[2026-04-16 14:53:32.124][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:53:32.124][Info][pool-1-thread-1][network.RobotGameServer] client_disconnected | f677080b-b522-4e58-84ec-cf9f205ddfa2
+[2026-04-16 14:53:32.126][Warning][robot-client-reader-localhost-64656][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:53:32.127][Info][Test worker][network.RobotGameServer] start | Server started on port 64658
+[2026-04-16 14:53:32.127][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64658
+[2026-04-16 14:53:32.129][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64658
+[2026-04-16 14:53:32.129][Info][robot-server-accept-64658][network.RobotGameServer] client_connected | 5bab15a4-3fa8-4b77-8e29-a4944ad87a8f
+[2026-04-16 14:53:32.131][Info][robot-server-accept-64658][network.RobotGameServer] client_connected | 40868bb9-66ce-4734-b6d6-0ac83c050c74
+[2026-04-16 14:53:32.132][Debug][pool-2-thread-1][model.RobotModel] set_target | x=300, y=220
+[2026-04-16 14:53:32.133][Debug][pool-2-thread-1][network.RobotGameServer] set_target | client=5bab15a4-3fa8-4b77-8e29-a4944ad87a8f, x=300, y=220
+[2026-04-16 14:53:32.133][Info][pool-2-thread-1][network.RobotGameServer] client_disconnected | 5bab15a4-3fa8-4b77-8e29-a4944ad87a8f
+[2026-04-16 14:53:32.133][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:53:32.133][Info][pool-2-thread-2][network.RobotGameServer] client_disconnected | 40868bb9-66ce-4734-b6d6-0ac83c050c74
+</pre>
+</span>
+</div>
+<div class="tab">
+<h2>Standard error</h2>
+<span class="code">
+<pre>[2026-04-16 14:53:32.124][Error][robot-client-reader-localhost-64656][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:32.133][Error][robot-client-reader-localhost-64658][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:32.133][Error][robot-client-reader-localhost-64658][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14</a> at Apr 16, 2026 2:53:32 PM</p>
+</div>
+</div>
+</body>
+</html>

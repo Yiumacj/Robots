@@ -10,11 +10,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.ApplicationController;
+import log.Logger;
 import model.AppWindowKey;
 import service.LocalizationService;
 
 public class DesktopLauncherPanel extends JPanel implements LocalizableView
 {
+    private static final String LOG_SOURCE = "gui.DesktopLauncherPanel";
     private final LocalizationService localizationService;
     private final Map<AppWindowKey, JButton> launchButtons = new LinkedHashMap<AppWindowKey, JButton>();
     private ApplicationController controller;
@@ -36,6 +38,7 @@ public class DesktopLauncherPanel extends JPanel implements LocalizableView
     public void setController(ApplicationController controller)
     {
         this.controller = controller;
+        Logger.debug(LOG_SOURCE, "controller_bound", "Desktop launch panel controller attached.");
     }
 
     @Override
@@ -58,6 +61,7 @@ public class DesktopLauncherPanel extends JPanel implements LocalizableView
         button.addActionListener(event -> {
             if (controller != null)
             {
+                Logger.info(LOG_SOURCE, "tile_click", String.valueOf(key));
                 controller.showWindow(key);
             }
         });

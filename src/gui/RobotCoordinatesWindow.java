@@ -9,11 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import log.Logger;
 import service.LocalizationService;
 import model.RobotState;
 
 public class RobotCoordinatesWindow extends JInternalFrame implements RobotStateView, LocalizableView
 {
+    private static final String LOG_SOURCE = "gui.RobotCoordinatesWindow";
     private final LocalizationService localizationService;
     private final JLabel robotXLabel = new JLabel();
     private final JLabel robotYLabel = new JLabel();
@@ -40,6 +42,7 @@ public class RobotCoordinatesWindow extends JInternalFrame implements RobotState
 
         setSize(260, 160);
         updateTexts();
+        Logger.debug(LOG_SOURCE, "initialized", "Coordinates window initialized.");
     }
 
     @Override

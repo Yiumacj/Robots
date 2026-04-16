@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="network.RobotGameServerIntegrationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-16T09:53:32.063Z" hostname="YIUMACJ" time="0.071">
+  <properties/>
+  <testcase name="lastWriteWinsForSequentialCommands" classname="network.RobotGameServerIntegrationTest" time="0.061"/>
+  <testcase name="serverAcceptsMultipleClientsAndPropagatesTargetChanges" classname="network.RobotGameServerIntegrationTest" time="0.009"/>
+  <system-out><![CDATA[[2026-04-16 14:53:32.069][Info][Test worker][network.RobotGameServer] start | Server started on port 64656
+[2026-04-16 14:53:32.070][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64656
+[2026-04-16 14:53:32.078][Info][robot-server-accept-64656][network.RobotGameServer] client_connected | f677080b-b522-4e58-84ec-cf9f205ddfa2
+[2026-04-16 14:53:32.122][Debug][pool-1-thread-1][model.RobotModel] set_target | x=120, y=90
+[2026-04-16 14:53:32.122][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=f677080b-b522-4e58-84ec-cf9f205ddfa2, x=120, y=90
+[2026-04-16 14:53:32.123][Debug][pool-1-thread-1][model.RobotModel] set_target | x=180, y=140
+[2026-04-16 14:53:32.123][Debug][pool-1-thread-1][network.RobotGameServer] set_target | client=f677080b-b522-4e58-84ec-cf9f205ddfa2, x=180, y=140
+[2026-04-16 14:53:32.124][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:53:32.124][Info][pool-1-thread-1][network.RobotGameServer] client_disconnected | f677080b-b522-4e58-84ec-cf9f205ddfa2
+[2026-04-16 14:53:32.126][Warning][robot-client-reader-localhost-64656][network.RobotGameClient] disconnected | Connection error: Socket closed
+[2026-04-16 14:53:32.127][Info][Test worker][network.RobotGameServer] start | Server started on port 64658
+[2026-04-16 14:53:32.127][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64658
+[2026-04-16 14:53:32.129][Info][Test worker][network.RobotGameClient] connect | Connecting to localhost:64658
+[2026-04-16 14:53:32.129][Info][robot-server-accept-64658][network.RobotGameServer] client_connected | 5bab15a4-3fa8-4b77-8e29-a4944ad87a8f
+[2026-04-16 14:53:32.131][Info][robot-server-accept-64658][network.RobotGameServer] client_connected | 40868bb9-66ce-4734-b6d6-0ac83c050c74
+[2026-04-16 14:53:32.132][Debug][pool-2-thread-1][model.RobotModel] set_target | x=300, y=220
+[2026-04-16 14:53:32.133][Debug][pool-2-thread-1][network.RobotGameServer] set_target | client=5bab15a4-3fa8-4b77-8e29-a4944ad87a8f, x=300, y=220
+[2026-04-16 14:53:32.133][Info][pool-2-thread-1][network.RobotGameServer] client_disconnected | 5bab15a4-3fa8-4b77-8e29-a4944ad87a8f
+[2026-04-16 14:53:32.133][Info][Test worker][network.RobotGameServer] stop | Server stopped.
+[2026-04-16 14:53:32.133][Info][pool-2-thread-2][network.RobotGameServer] client_disconnected | 40868bb9-66ce-4734-b6d6-0ac83c050c74
+]]></system-out>
+  <system-err><![CDATA[[2026-04-16 14:53:32.124][Error][robot-client-reader-localhost-64656][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:32.133][Error][robot-client-reader-localhost-64658][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+[2026-04-16 14:53:32.133][Error][robot-client-reader-localhost-64658][network.RobotGameClient] read_failed | Connection error while reading server stream.
+java.net.SocketException: Socket closed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at network.RobotGameClient.readLoop(RobotGameClient.java:109)
+	at network.RobotGameClient.lambda$connect$0(RobotGameClient.java:59)
+	at java.lang.Thread.run(Thread.java:750)
+
+]]></system-err>
+</testsuite>

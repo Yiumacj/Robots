@@ -9,11 +9,13 @@ import javax.swing.JPanel;
 
 import log.LogChangeListener;
 import log.LogEntry;
+import log.Logger;
 import log.LogWindowSource;
 import service.LocalizationService;
 
 public class LogWindow extends JInternalFrame implements LogChangeListener, LocalizableView
 {
+    private static final String LOG_SOURCE = "gui.LogWindow";
     private final LogWindowSource logSource;
     private final TextArea logContent;
     private final LocalizationService localizationService;
@@ -33,6 +35,7 @@ public class LogWindow extends JInternalFrame implements LogChangeListener, Loca
         pack();
         updateTexts();
         updateLogContent();
+        Logger.debug(LOG_SOURCE, "initialized", "Log window initialized and listener registered.");
     }
 
     private void updateLogContent()
