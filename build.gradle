@@ -21,11 +21,11 @@ java {
 }
 
 application {
-    // Entry point found in src/gui/RobotsProgram.java
+    
     mainClass = 'gui.RobotsProgram'
 }
 
-// Eclipse project keeps sources in plain 'src' folder
+
 sourceSets {
     main {
         java {

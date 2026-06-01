@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="service.FileWindowStateServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-16T09:53:32.153Z" hostname="YIUMACJ" time="0.039">
+<testsuite name="service.FileWindowStateServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-01T23:17:50.520Z" hostname="YIUMACJ" time="0.057">
   <properties/>
-  <testcase name="savesAndLoadsWindowBounds" classname="service.FileWindowStateServiceTest" time="0.023"/>
-  <testcase name="brokenGeometryFallsBackToDefaults" classname="service.FileWindowStateServiceTest" time="0.016"/>
-  <system-out><![CDATA[[2026-04-16 14:53:32.164][Info][Test worker][gui.MainApplicationFrame] window_added | GAME
-[2026-04-16 14:53:32.164][Debug][Test worker][service.FileWindowStateService] save_window_state | Saving frame and internal windows geometry.
-[2026-04-16 14:53:32.175][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
-[2026-04-16 14:53:32.192][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
+  <testcase name="savesAndLoadsWindowBounds" classname="service.FileWindowStateServiceTest" time="0.037"/>
+  <testcase name="brokenGeometryFallsBackToDefaults" classname="service.FileWindowStateServiceTest" time="0.02"/>
+  <system-out><![CDATA[[2026-06-02 04:17:50.533][Info][Test worker][gui.MainApplicationFrame] window_added | GAME
+[2026-06-02 04:17:50.534][Debug][Test worker][service.FileWindowStateService] save_window_state | Saving frame and internal windows geometry.
+[2026-06-02 04:17:50.556][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
+[2026-06-02 04:17:50.576][Info][Test worker][service.FileWindowStateService] load_window_state_done | Window geometry restored.
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -23,7 +23,7 @@ public class RobotWireProtocolTest
     @Test
     public void encodesAndDecodesStateEventWithTick()
     {
-        ServerStateEvent event = new ServerStateEvent(10.5, 17.25, 0.5, 100, 120, 42L);
+        ServerStateEvent event = new ServerStateEvent(10.5, 17.25, 0.5, 100, 120, 42L, "test-player-id");
         String json = RobotWireProtocol.encodeMessage(RobotWireProtocol.TYPE_SERVER_STATE, event);
 
         WireMessage decoded = RobotWireProtocol.decodeMessage(json);

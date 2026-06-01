@@ -30,7 +30,7 @@ public class RobotWireProtocolSelfTest implements SelfTestCase
 
         String stateJson = RobotWireProtocol.encodeMessage(
                 RobotWireProtocol.TYPE_SERVER_STATE,
-                new ServerStateEvent(10.5, 20.5, 0.8, 111, 222, 13L));
+                new ServerStateEvent(10.5, 20.5, 0.8, 111, 222, 13L, "test-player-id"));
         WireMessage stateMessage = RobotWireProtocol.decodeMessage(stateJson);
         context.assertEquals(RobotWireProtocol.TYPE_SERVER_STATE, stateMessage.getType(), "State type mismatch.");
         ServerStateEvent state = RobotWireProtocol.decodePayload(stateMessage, ServerStateEvent.class);

@@ -18,6 +18,6 @@ public class UiLogSink implements LogSink
     @Override
     public void close()
     {
-        // No resources to close.
+        
     }
 }

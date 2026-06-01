@@ -1,2 +1,3 @@
 selftest.cases.LaunchOptionsSelfTest
 selftest.cases.RobotWireProtocolSelfTest
+selftest.cases.MessageFormattingBenchmarkSelfTest

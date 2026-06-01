@@ -2,8 +2,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.util.Locale;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -51,11 +49,11 @@ public class RobotCoordinatesWindow extends JInternalFrame implements RobotState
         this.state = state;
         SwingUtilities.invokeLater(() -> {
             setTitle(localizationService.get("window.coordinates"));
-            robotXLabel.setText(String.format(Locale.US, localizationService.get("coordinates.robot_x"), state.getRobotPositionX()));
-            robotYLabel.setText(String.format(Locale.US, localizationService.get("coordinates.robot_y"), state.getRobotPositionY()));
-            directionLabel.setText(String.format(Locale.US, localizationService.get("coordinates.direction"), state.getRobotDirection()));
-            targetXLabel.setText(String.format(Locale.US, localizationService.get("coordinates.target_x"), state.getTargetPositionX()));
-            targetYLabel.setText(String.format(Locale.US, localizationService.get("coordinates.target_y"), state.getTargetPositionY()));
+            robotXLabel.setText(localizationService.format("coordinates.robot_x", state.getRobotPositionX()));
+            robotYLabel.setText(localizationService.format("coordinates.robot_y", state.getRobotPositionY()));
+            directionLabel.setText(localizationService.format("coordinates.direction", state.getRobotDirection()));
+            targetXLabel.setText(localizationService.format("coordinates.target_x", state.getTargetPositionX()));
+            targetYLabel.setText(localizationService.format("coordinates.target_y", state.getTargetPositionY()));
         });
     }
 

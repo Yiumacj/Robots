@@ -14,9 +14,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.gson.JsonSyntaxException;
 
 import log.Logger;
+import network.protocol.ClientSetColorCommand;
 import network.protocol.ClientSetTargetCommand;
 import network.protocol.RobotWireProtocol;
 import network.protocol.ServerErrorEvent;
+import network.protocol.ServerFullStateEvent;
 import network.protocol.ServerStateEvent;
 import network.protocol.ServerWelcomeEvent;
 import network.protocol.WireMessage;
@@ -52,11 +54,13 @@ public class RobotGameClient implements Closeable
         Logger.info(LOG_SOURCE, "connect", "Connecting to " + host + ":" + port);
         socket = new Socket(host, port);
         writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
-        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
         connected.set(true);
         disconnectNotified = false;
 
-        readerThread = new Thread(() -> readLoop(reader), "robot-client-reader-" + host + "-" + port);
+        readerThread = new Thread(() -> readLoop(reader),
+                "robot-client-reader-" + host + "-" + port);
         readerThread.setDaemon(true);
         readerThread.start();
     }
@@ -76,6 +80,24 @@ public class RobotGameClient implements Closeable
         String line = RobotWireProtocol.encodeMessage(
                 RobotWireProtocol.TYPE_CLIENT_SET_TARGET,
                 new ClientSetTargetCommand(point.x, point.y));
+        return sendLine(line, "Connection lost while sending command.");
+    }
+
+    public boolean sendSetColor(int rgb)
+    {
+        if (!connected.get())
+        {
+            Logger.warn(LOG_SOURCE, "send_color_skipped", "Cannot send color while disconnected.");
+            return false;
+        }
+        String line = RobotWireProtocol.encodeMessage(
+                RobotWireProtocol.TYPE_CLIENT_SET_COLOR,
+                new ClientSetColorCommand(rgb));
+        return sendLine(line, "Connection lost while sending color command.");
+    }
+
+    private boolean sendLine(String line, String disconnectMessage)
+    {
         try
         {
             synchronized (writeLock)
@@ -89,7 +111,7 @@ public class RobotGameClient implements Closeable
         catch (IOException e)
         {
             Logger.error(LOG_SOURCE, "write_failed", "Network write error.", e);
-            notifyDisconnect("Connection lost while sending command.");
+            notifyDisconnect(disconnectMessage);
             closeQuietly();
             return false;
         }
@@ -134,19 +156,30 @@ public class RobotGameClient implements Closeable
             }
             if (RobotWireProtocol.TYPE_SERVER_WELCOME.equals(message.getType()))
             {
-                ServerWelcomeEvent event = RobotWireProtocol.decodePayload(message, ServerWelcomeEvent.class);
+                ServerWelcomeEvent event =
+                        RobotWireProtocol.decodePayload(message, ServerWelcomeEvent.class);
                 listener.onWelcome(event);
                 return;
             }
+            if (RobotWireProtocol.TYPE_SERVER_FULL_STATE.equals(message.getType()))
+            {
+                ServerFullStateEvent event =
+                        RobotWireProtocol.decodePayload(message, ServerFullStateEvent.class);
+                listener.onFullState(event);
+                return;
+            }
+            
             if (RobotWireProtocol.TYPE_SERVER_STATE.equals(message.getType()))
             {
-                ServerStateEvent event = RobotWireProtocol.decodePayload(message, ServerStateEvent.class);
+                ServerStateEvent event =
+                        RobotWireProtocol.decodePayload(message, ServerStateEvent.class);
                 listener.onState(event);
                 return;
             }
             if (RobotWireProtocol.TYPE_SERVER_ERROR.equals(message.getType()))
             {
-                ServerErrorEvent event = RobotWireProtocol.decodePayload(message, ServerErrorEvent.class);
+                ServerErrorEvent event =
+                        RobotWireProtocol.decodePayload(message, ServerErrorEvent.class);
                 listener.onServerError(event);
             }
         }
@@ -158,10 +191,7 @@ public class RobotGameClient implements Closeable
 
     private void notifyDisconnect(String message)
     {
-        if (disconnectNotified)
-        {
-            return;
-        }
+        if (disconnectNotified) return;
         disconnectNotified = true;
         Logger.warn(LOG_SOURCE, "disconnected", message);
         listener.onDisconnected(message);
@@ -177,17 +207,13 @@ public class RobotGameClient implements Closeable
 
     private static void closeSocket(Socket socket)
     {
-        if (socket == null)
-        {
-            return;
-        }
+        if (socket == null) return;
         try
         {
             socket.close();
         }
         catch (IOException ignored)
         {
-            // Nothing to do on shutdown.
         }
     }
 }

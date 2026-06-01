@@ -8,19 +8,35 @@ public class RobotModel
 {
     private static final String LOG_SOURCE = "model.RobotModel";
 
-    private volatile double robotPositionX = 100;
-    private volatile double robotPositionY = 100;
+    private volatile double robotPositionX;
+    private volatile double robotPositionY;
     private volatile double robotDirection = 0;
 
-    private volatile int targetPositionX = 150;
-    private volatile int targetPositionY = 100;
+    private volatile int targetPositionX;
+    private volatile int targetPositionY;
+    private volatile int robotColorRgb = RobotState.DEFAULT_COLOR_RGB;
 
     private static final double MAX_VELOCITY = 0.1;
     private static final double MAX_ANGULAR_VELOCITY = 0.001;
 
+    
+    public RobotModel()
+    {
+        this(100, 100);
+    }
+
+    
+    public RobotModel(double startX, double startY)
+    {
+        this.robotPositionX = startX;
+        this.robotPositionY = startY;
+        this.targetPositionX = (int) startX + 50;
+        this.targetPositionY = (int) startY;
+    }
+
     public synchronized RobotState getState()
     {
-        return new RobotState(robotPositionX, robotPositionY, robotDirection, targetPositionX, targetPositionY);
+        return new RobotState(robotPositionX, robotPositionY, robotDirection, targetPositionX, targetPositionY, robotColorRgb);
     }
 
     public synchronized void setTargetPosition(Point point)
@@ -33,6 +49,11 @@ public class RobotModel
     {
         targetPositionX = x;
         targetPositionY = y;
+    }
+
+    public synchronized void setRobotColorRgb(int robotColorRgb)
+    {
+        this.robotColorRgb = robotColorRgb;
     }
 
     public synchronized void update(double duration)
@@ -100,40 +121,22 @@ public class RobotModel
 
     private static double applyLimits(double value, double min, double max)
     {
-        if (value < min)
-        {
-            return min;
-        }
-        if (value > max)
-        {
-            return max;
-        }
+        if (value < min) return min;
+        if (value > max) return max;
         return value;
     }
 
     public static double asNormalizedRadians(double angle)
     {
-        while (angle < 0)
-        {
-            angle += 2 * Math.PI;
-        }
-        while (angle >= 2 * Math.PI)
-        {
-            angle -= 2 * Math.PI;
-        }
+        while (angle < 0) angle += 2 * Math.PI;
+        while (angle >= 2 * Math.PI) angle -= 2 * Math.PI;
         return angle;
     }
 
     public static double asNormalizedRelativeRadians(double angle)
     {
-        while (angle <= -Math.PI)
-        {
-            angle += 2 * Math.PI;
-        }
-        while (angle > Math.PI)
-        {
-            angle -= 2 * Math.PI;
-        }
+        while (angle <= -Math.PI) angle += 2 * Math.PI;
+        while (angle > Math.PI) angle -= 2 * Math.PI;
         return angle;
     }
 }

@@ -1,5 +1,8 @@
 package service;
 
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -13,6 +16,7 @@ public class ResourceBundleLocalizationService implements LocalizationService
 
     private AppLocale currentLocale = AppLocale.RU_RU;
     private ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_NAME, currentLocale.toLocale());
+    private final Map<String, MessageFormat> messageFormatCache = new HashMap<String, MessageFormat>();
 
     @Override
     public String get(String key)
@@ -30,16 +34,29 @@ public class ResourceBundleLocalizationService implements LocalizationService
     }
 
     @Override
+    public synchronized String format(String key, Object... arguments)
+    {
+        MessageFormat format = messageFormatCache.get(key);
+        if (format == null)
+        {
+            format = new MessageFormat(get(key), currentLocale.toLocale());
+            messageFormatCache.put(key, format);
+        }
+        return format.format(arguments == null ? new Object[0] : arguments);
+    }
+
+    @Override
     public AppLocale getCurrentLocale()
     {
         return currentLocale;
     }
 
     @Override
-    public void setCurrentLocale(AppLocale locale)
+    public synchronized void setCurrentLocale(AppLocale locale)
     {
         currentLocale = locale == null ? AppLocale.RU_RU : locale;
         bundle = ResourceBundle.getBundle(BUNDLE_NAME, currentLocale.toLocale());
+        messageFormatCache.clear();
         Logger.info(LOG_SOURCE, "set_locale", "Locale switched to " + currentLocale);
     }
 }

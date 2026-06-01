@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="controller.DefaultApplicationControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-04-16T09:53:31.010Z" hostname="YIUMACJ" time="0.562">
+<testsuite name="controller.DefaultApplicationControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-06-01T23:17:44.433Z" hostname="YIUMACJ" time="0.511">
   <properties/>
-  <testcase name="activateWindowReopensClosedInternalFrame" classname="controller.DefaultApplicationControllerTest" time="0.458"/>
+  <testcase name="activateWindowReopensClosedInternalFrame" classname="controller.DefaultApplicationControllerTest" time="0.406"/>
   <testcase name="showWindowDelegatesToFrame" classname="controller.DefaultApplicationControllerTest" time="0.059"/>
-  <testcase name="openSettingsUsesSameWindowActivationPath" classname="controller.DefaultApplicationControllerTest" time="0.024"/>
-  <testcase name="exitSavesStateAndStopsGameLoop" classname="controller.DefaultApplicationControllerTest" time="0.021"/>
-  <system-out><![CDATA[[2026-04-16 14:53:31.461][Info][Test worker][gui.MainApplicationFrame] window_added | LOG
-[2026-04-16 14:53:31.491][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
-[2026-04-16 14:53:31.499][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
-[2026-04-16 14:53:31.526][Debug][Test worker][controller.DefaultApplicationController] show_window | GAME
-[2026-04-16 14:53:31.540][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
-[2026-04-16 14:53:31.545][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
-[2026-04-16 14:53:31.550][Debug][Test worker][controller.DefaultApplicationController] open_settings | Opening settings window.
-[2026-04-16 14:53:31.551][Debug][Test worker][controller.DefaultApplicationController] show_window | SETTINGS
-[2026-04-16 14:53:31.563][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
-[2026-04-16 14:53:31.567][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
-[2026-04-16 14:53:31.571][Info][Test worker][controller.DefaultApplicationController] exit_requested | User requested application shutdown.
-[2026-04-16 14:53:31.572][Info][Test worker][controller.DefaultApplicationController] exit | Window state saved. Closing application.
+  <testcase name="openSettingsUsesSameWindowActivationPath" classname="controller.DefaultApplicationControllerTest" time="0.023"/>
+  <testcase name="exitSavesStateAndStopsGameLoop" classname="controller.DefaultApplicationControllerTest" time="0.023"/>
+  <system-out><![CDATA[[2026-06-02 04:17:44.834][Info][Test worker][gui.MainApplicationFrame] window_added | LOG
+[2026-06-02 04:17:44.859][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-06-02 04:17:44.865][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-06-02 04:17:44.898][Debug][Test worker][controller.DefaultApplicationController] show_window | GAME
+[2026-06-02 04:17:44.910][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-06-02 04:17:44.915][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-06-02 04:17:44.921][Debug][Test worker][controller.DefaultApplicationController] open_settings | Opening settings window.
+[2026-06-02 04:17:44.922][Debug][Test worker][controller.DefaultApplicationController] show_window | SETTINGS
+[2026-06-02 04:17:44.934][Debug][Test worker][gui.LogWindow] initialized | Log window initialized and listener registered.
+[2026-06-02 04:17:44.937][Debug][Test worker][gui.RobotCoordinatesWindow] initialized | Coordinates window initialized.
+[2026-06-02 04:17:44.943][Info][Test worker][controller.DefaultApplicationController] exit_requested | User requested application shutdown.
+[2026-06-02 04:17:44.944][Info][Test worker][controller.DefaultApplicationController] exit | Window state saved. Closing application.
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

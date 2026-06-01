@@ -22,13 +22,16 @@ public class DefaultApplicationController implements ApplicationController
 
     private final MainApplicationFrame frame;
     private final GameController gameController;
+    private final GameController secondGameController;
     private final LogWindow logWindow;
     private final GameWindow gameWindow;
+    private final GameWindow secondGameWindow;
     private final RobotCoordinatesWindow coordinatesWindow;
     private final SettingsWindow settingsWindow;
     private final LocalizationService localizationService;
     private final ApplicationSettingsService settingsService;
     private final LocalizableView[] localizableViews;
+    private boolean secondGameControllerStarted;
 
     public DefaultApplicationController(MainApplicationFrame frame,
                                         GameController gameController,
@@ -39,15 +42,33 @@ public class DefaultApplicationController implements ApplicationController
                                         LocalizationService localizationService,
                                         ApplicationSettingsService settingsService)
     {
+        this(frame, gameController, gameController, logWindow, gameWindow,
+                new GameWindow(localizationService), coordinatesWindow, settingsWindow,
+                localizationService, settingsService);
+    }
+
+    public DefaultApplicationController(MainApplicationFrame frame,
+                                        GameController gameController,
+                                        GameController secondGameController,
+                                        LogWindow logWindow,
+                                        GameWindow gameWindow,
+                                        GameWindow secondGameWindow,
+                                        RobotCoordinatesWindow coordinatesWindow,
+                                        SettingsWindow settingsWindow,
+                                        LocalizationService localizationService,
+                                        ApplicationSettingsService settingsService)
+    {
         this.frame = frame;
         this.gameController = gameController;
+        this.secondGameController = secondGameController;
         this.logWindow = logWindow;
         this.gameWindow = gameWindow;
+        this.secondGameWindow = secondGameWindow;
         this.coordinatesWindow = coordinatesWindow;
         this.settingsWindow = settingsWindow;
         this.localizationService = localizationService;
         this.settingsService = settingsService;
-        this.localizableViews = new LocalizableView[] { frame, logWindow, gameWindow, coordinatesWindow, settingsWindow };
+        this.localizableViews = new LocalizableView[] { frame, logWindow, gameWindow, secondGameWindow, coordinatesWindow, settingsWindow };
     }
 
     @Override
@@ -56,6 +77,8 @@ public class DefaultApplicationController implements ApplicationController
         Logger.info(LOG_SOURCE, "start", "Initializing application windows and game loop.");
         frame.addWindow(AppWindowKey.LOG, logWindow);
         frame.addWindow(AppWindowKey.GAME, gameWindow);
+        frame.addWindow(AppWindowKey.GAME_SECOND, secondGameWindow);
+        secondGameWindow.setVisible(false);
         frame.addWindow(AppWindowKey.COORDINATES, coordinatesWindow);
         frame.addWindow(AppWindowKey.SETTINGS, settingsWindow);
         settingsWindow.setVisible(false);
@@ -77,6 +100,7 @@ public class DefaultApplicationController implements ApplicationController
             return;
         }
         gameController.stop();
+        secondGameController.stop();
         settingsService.saveWindowState(frame);
         Logger.info(LOG_SOURCE, "exit", "Window state saved. Closing application.");
         frame.closeApplication();
@@ -94,7 +118,24 @@ public class DefaultApplicationController implements ApplicationController
     public void showWindow(AppWindowKey key)
     {
         Logger.debug(LOG_SOURCE, "show_window", String.valueOf(key));
+        if (key == AppWindowKey.GAME_SECOND)
+        {
+            openSecondRobotWindow();
+            return;
+        }
         frame.activateWindow(key);
+    }
+
+    @Override
+    public void openSecondRobotWindow()
+    {
+        Logger.debug(LOG_SOURCE, "open_second_robot_window", "Opening second robot window.");
+        if (!secondGameControllerStarted)
+        {
+            secondGameController.start();
+            secondGameControllerStarted = true;
+        }
+        frame.activateWindow(AppWindowKey.GAME_SECOND);
     }
 
     @Override

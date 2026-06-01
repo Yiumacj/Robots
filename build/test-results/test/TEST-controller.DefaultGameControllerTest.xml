@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="controller.DefaultGameControllerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-16T09:53:31.574Z" hostname="YIUMACJ" time="0.004">
+<testsuite name="controller.DefaultGameControllerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-01T23:17:44.945Z" hostname="YIUMACJ" time="0.005">
   <properties/>
-  <testcase name="tickPublishesUpdatedState" classname="controller.DefaultGameControllerTest" time="0.002"/>
+  <testcase name="tickPublishesUpdatedState" classname="controller.DefaultGameControllerTest" time="0.003"/>
   <testcase name="clickUpdatesTargetThroughController" classname="controller.DefaultGameControllerTest" time="0.002"/>
-  <system-out><![CDATA[[2026-04-16 14:53:31.576][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
-[2026-04-16 14:53:31.576][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
-[2026-04-16 14:53:31.578][Debug][Test worker][controller.DefaultGameController] set_target | x=222, y=111
-[2026-04-16 14:53:31.578][Debug][Test worker][model.RobotModel] set_target | x=222, y=111
+  <system-out><![CDATA[[2026-06-02 04:17:44.947][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-06-02 04:17:44.950][Debug][Test worker][controller.DefaultGameController] add_view | View count=1
+[2026-06-02 04:17:44.950][Debug][Test worker][controller.DefaultGameController] set_target | x=222, y=111
+[2026-06-02 04:17:44.950][Debug][Test worker][model.RobotModel] set_target | x=222, y=111
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

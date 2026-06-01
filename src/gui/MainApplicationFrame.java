@@ -10,12 +10,14 @@ import java.beans.PropertyVetoException;
 import java.util.EnumMap;
 import java.util.Map;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -23,6 +25,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import controller.ApplicationController;
 import log.Logger;
+import model.AppLocale;
 import model.AppWindowKey;
 import service.LocalizationService;
 
@@ -106,7 +109,7 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         }
         catch (PropertyVetoException ignored)
         {
-            // Visibility is enough if focus cannot be changed.
+            
             Logger.warn(LOG_SOURCE, "focus_change_rejected", String.valueOf(key));
         }
     }
@@ -151,7 +154,7 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         catch (ClassNotFoundException | InstantiationException
                | IllegalAccessException | UnsupportedLookAndFeelException e)
         {
-            // Ignore unsupported themes and keep the current one.
+            
             Logger.warn(LOG_SOURCE, "look_and_feel_failed", className + " | " + e.getMessage());
         }
     }
@@ -234,6 +237,7 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         JMenu windowsMenu = new JMenu(localizationService.get("menu.windows"));
         windowsMenu.setMnemonic(KeyEvent.VK_W);
         windowsMenu.add(createWindowItem(localizationService.get("menu.windows.game"), AppWindowKey.GAME));
+        windowsMenu.add(createWindowItem(localizationService.get("menu.windows.game_second"), AppWindowKey.GAME_SECOND));
         windowsMenu.add(createWindowItem(localizationService.get("menu.windows.coordinates"), AppWindowKey.COORDINATES));
         windowsMenu.add(createWindowItem(localizationService.get("menu.windows.log"), AppWindowKey.LOG));
         windowsMenu.add(createWindowItem(localizationService.get("menu.windows.settings"), AppWindowKey.SETTINGS));
@@ -257,6 +261,15 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         JMenu controlMenu = new JMenu(localizationService.get("menu.control"));
         controlMenu.setMnemonic(KeyEvent.VK_T);
 
+        JMenuItem openSecondRobotItem = new JMenuItem(localizationService.get("menu.control.open_second_robot"));
+        openSecondRobotItem.addActionListener((event) -> {
+            if (controller != null)
+            {
+                controller.openSecondRobotWindow();
+            }
+        });
+        controlMenu.add(openSecondRobotItem);
+
         JMenuItem addLogMessageItem = new JMenuItem(localizationService.get("menu.control.add_log"), KeyEvent.VK_L);
         addLogMessageItem.addActionListener((event) -> {
             if (controller != null)
@@ -273,6 +286,9 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         JMenu settingsMenu = new JMenu(localizationService.get("menu.settings"));
         settingsMenu.setMnemonic(KeyEvent.VK_S);
 
+        settingsMenu.add(createLanguageMenu());
+        settingsMenu.addSeparator();
+
         JMenuItem openSettingsItem = new JMenuItem(localizationService.get("menu.settings.open"));
         openSettingsItem.addActionListener((event) -> {
             if (controller != null)
@@ -282,6 +298,27 @@ public class MainApplicationFrame extends JFrame implements LocalizableView
         });
         settingsMenu.add(openSettingsItem);
         return settingsMenu;
+    }
+
+    private JMenu createLanguageMenu()
+    {
+        JMenu languageMenu = new JMenu(localizationService.get("menu.settings.language"));
+        ButtonGroup group = new ButtonGroup();
+        for (AppLocale locale : AppLocale.values())
+        {
+            String key = locale == AppLocale.EN_US ? "settings.locale.en" : "settings.locale.ru";
+            JRadioButtonMenuItem item = new JRadioButtonMenuItem(localizationService.get(key));
+            item.setSelected(localizationService.getCurrentLocale() == locale);
+            item.addActionListener(event -> {
+                if (controller != null)
+                {
+                    controller.changeLocale(locale);
+                }
+            });
+            group.add(item);
+            languageMenu.add(item);
+        }
+        return languageMenu;
     }
 
     private JMenu createHelpMenu()

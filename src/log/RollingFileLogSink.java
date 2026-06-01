@@ -175,7 +175,7 @@ public class RollingFileLogSink implements LogSink
         }
         catch (IOException ignored)
         {
-            // Best effort during shutdown.
+            
         }
         finally
         {

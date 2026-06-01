@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import network.protocol.ServerErrorEvent;
+import network.protocol.ServerFullStateEvent;
 import network.protocol.ServerStateEvent;
 import network.protocol.ServerWelcomeEvent;
 
@@ -36,7 +37,12 @@ public class RobotGameServerIntegrationTest
             Assert.assertTrue(listenerA.stateLatch.await(3, TimeUnit.SECONDS));
             Assert.assertTrue(listenerB.stateLatch.await(3, TimeUnit.SECONDS));
 
+            
+            String playerAId = listenerA.myPlayerId;
+
             Assert.assertTrue(clientA.sendSetTarget(new Point(300, 220)));
+            listenerA.setExpectedTarget(playerAId, 300, 220);
+            listenerB.setExpectedTarget(playerAId, 300, 220);
             Assert.assertTrue(listenerA.targetLatch.await(3, TimeUnit.SECONDS));
             Assert.assertTrue(listenerB.targetLatch.await(3, TimeUnit.SECONDS));
         }
@@ -64,6 +70,7 @@ public class RobotGameServerIntegrationTest
 
             Assert.assertTrue(client.sendSetTarget(new Point(120, 90)));
             Assert.assertTrue(client.sendSetTarget(new Point(180, 140)));
+            listener.setExpectedTarget(listener.myPlayerId, 180, 140);
             Assert.assertTrue(listener.targetLatch.await(3, TimeUnit.SECONDS));
         }
         finally
@@ -88,34 +95,62 @@ public class RobotGameServerIntegrationTest
 
     private static class TestClientListener implements RobotGameClientListener
     {
-        private final int expectedTargetX;
-        private final int expectedTargetY;
-        private final CountDownLatch welcomeLatch = new CountDownLatch(1);
-        private final CountDownLatch stateLatch = new CountDownLatch(1);
-        private final CountDownLatch targetLatch = new CountDownLatch(1);
+        
+        private volatile int expectedTargetX;
+        private volatile int expectedTargetY;
+        private volatile String expectedPlayerId;
+        volatile String myPlayerId;
 
-        private TestClientListener(int expectedTargetX, int expectedTargetY)
+        final CountDownLatch welcomeLatch = new CountDownLatch(1);
+        final CountDownLatch stateLatch  = new CountDownLatch(1);
+        final CountDownLatch targetLatch = new CountDownLatch(1);
+
+        TestClientListener(int expectedTargetX, int expectedTargetY)
         {
             this.expectedTargetX = expectedTargetX;
             this.expectedTargetY = expectedTargetY;
         }
 
+        void setExpectedTarget(String playerId, int x, int y)
+        {
+            this.expectedPlayerId = playerId;
+            this.expectedTargetX = x;
+            this.expectedTargetY = y;
+        }
+
         @Override
         public void onWelcome(ServerWelcomeEvent event)
         {
+            if (event != null)
+            {
+                myPlayerId = event.getClientId();
+            }
             welcomeLatch.countDown();
         }
 
         @Override
         public void onState(ServerStateEvent event)
         {
-            if (event != null)
+            
+        }
+
+        @Override
+        public void onFullState(ServerFullStateEvent event)
+        {
+            if (event == null || event.getPlayers() == null) return;
+            stateLatch.countDown();
+
+            for (ServerStateEvent playerState : event.getPlayers())
             {
-                stateLatch.countDown();
-                if (event.toRobotState().getTargetPositionX() == expectedTargetX
-                        && event.toRobotState().getTargetPositionY() == expectedTargetY)
+                if (playerState == null) continue;
+                boolean isTarget = expectedPlayerId == null
+                        || expectedPlayerId.equals(playerState.getPlayerId());
+                if (isTarget
+                        && playerState.toRobotState().getTargetPositionX() == expectedTargetX
+                        && playerState.toRobotState().getTargetPositionY() == expectedTargetY)
                 {
                     targetLatch.countDown();
+                    return;
                 }
             }
         }
@@ -129,7 +164,7 @@ public class RobotGameServerIntegrationTest
         @Override
         public void onDisconnected(String message)
         {
-            // Test controls lifecycle and closes clients explicitly.
+            
         }
     }
 }

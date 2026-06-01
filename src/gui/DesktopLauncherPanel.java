@@ -25,10 +25,11 @@ public class DesktopLauncherPanel extends JPanel implements LocalizableView
     {
         this.localizationService = localizationService;
         setOpaque(false);
-        setLayout(new GridLayout(2, 2, 16, 16));
+        setLayout(new GridLayout(0, 2, 16, 16));
         setBorder(BorderFactory.createEmptyBorder(24, 24, 24, 24));
 
         addButton(AppWindowKey.GAME);
+        addButton(AppWindowKey.GAME_SECOND);
         addButton(AppWindowKey.COORDINATES);
         addButton(AppWindowKey.LOG);
         addButton(AppWindowKey.SETTINGS);
@@ -45,6 +46,7 @@ public class DesktopLauncherPanel extends JPanel implements LocalizableView
     public void updateTexts()
     {
         updateButtonText(AppWindowKey.GAME, localizationService.get("desktop.tile.game"));
+        updateButtonText(AppWindowKey.GAME_SECOND, localizationService.get("desktop.tile.game_second"));
         updateButtonText(AppWindowKey.COORDINATES, localizationService.get("desktop.tile.coordinates"));
         updateButtonText(AppWindowKey.LOG, localizationService.get("desktop.tile.log"));
         updateButtonText(AppWindowKey.SETTINGS, localizationService.get("desktop.tile.settings"));

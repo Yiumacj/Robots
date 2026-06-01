@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="runtime.LaunchOptionsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-16T09:53:32.140Z" hostname="YIUMACJ" time="0.004">
+<testsuite name="runtime.LaunchOptionsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-01T23:17:45.493Z" hostname="YIUMACJ" time="0.003">
   <properties/>
-  <testcase name="parseFallbacksForInvalidPortAndUnknownMode" classname="runtime.LaunchOptionsTest" time="0.004"/>
-  <testcase name="parseClientModeWithHostAndPort" classname="runtime.LaunchOptionsTest" time="0.0"/>
-  <system-out><![CDATA[[2026-04-16 14:53:32.142][Warning][Test worker][runtime.LaunchOptions] invalid_port | Cannot parse port 'abc', fallback=5050
-[2026-04-16 14:53:32.143][Info][Test worker][runtime.LaunchOptions] parse_args | mode=LOCAL, host=localhost, port=5050
-[2026-04-16 14:53:32.144][Info][Test worker][runtime.LaunchOptions] parse_args | mode=CLIENT, host=10.10.0.7, port=5501
+  <testcase name="parseFallbacksForInvalidPortAndUnknownMode" classname="runtime.LaunchOptionsTest" time="0.002"/>
+  <testcase name="parseClientModeWithHostAndPort" classname="runtime.LaunchOptionsTest" time="0.001"/>
+  <system-out><![CDATA[[2026-06-02 04:17:45.495][Warning][Test worker][runtime.LaunchOptions] invalid_port | Cannot parse port 'abc', fallback=5050
+[2026-06-02 04:17:45.496][Info][Test worker][runtime.LaunchOptions] parse_args | mode=LOCAL, host=localhost, port=5050
+[2026-06-02 04:17:45.496][Info][Test worker][runtime.LaunchOptions] parse_args | mode=CLIENT, host=10.10.0.7, port=5501
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

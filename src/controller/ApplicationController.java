@@ -13,6 +13,8 @@ public interface ApplicationController
 
     void showWindow(AppWindowKey key);
 
+    void openSecondRobotWindow();
+
     void openSettings();
 
     void changeLocale(AppLocale locale);

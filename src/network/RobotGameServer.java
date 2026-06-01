@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,9 +26,11 @@ import com.google.gson.JsonSyntaxException;
 import log.Logger;
 import model.RobotModel;
 import model.RobotState;
+import network.protocol.ClientSetColorCommand;
 import network.protocol.ClientSetTargetCommand;
 import network.protocol.RobotWireProtocol;
 import network.protocol.ServerErrorEvent;
+import network.protocol.ServerFullStateEvent;
 import network.protocol.ServerStateEvent;
 import network.protocol.ServerWelcomeEvent;
 import network.protocol.WireMessage;
@@ -38,11 +41,9 @@ public class RobotGameServer implements Closeable
     private static final long TICK_MS = 10L;
 
     private final int port;
-    private final RobotModel model = new RobotModel();
     private final List<ClientConnection> clients = new CopyOnWriteArrayList<ClientConnection>();
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicLong serverTick = new AtomicLong(0L);
-    private final Object modelLock = new Object();
 
     private ServerSocket serverSocket;
     private ExecutorService clientExecutor;
@@ -132,17 +133,23 @@ public class RobotGameServer implements Closeable
 
     private void startAcceptLoop()
     {
-        acceptThread = new Thread(() -> {
+        acceptThread = new Thread(() ->
+        {
             while (running.get())
             {
                 try
                 {
                     Socket socket = serverSocket.accept();
-                    ClientConnection client = new ClientConnection(UUID.randomUUID().toString(), socket);
+                    
+                    
+                    double startX = 100 + clients.size() * 120;
+                    double startY = 100;
+                    ClientConnection client = new ClientConnection(
+                            UUID.randomUUID().toString(), socket, startX, startY);
                     clients.add(client);
                     Logger.info(LOG_SOURCE, "client_connected", client.id);
                     sendWelcome(client);
-                    sendStateTo(client);
+                    broadcastFullStateSnapshot();
                     clientExecutor.submit(() -> handleClient(client));
                 }
                 catch (IOException e)
@@ -190,18 +197,33 @@ public class RobotGameServer implements Closeable
             }
             if (RobotWireProtocol.TYPE_CLIENT_SET_TARGET.equals(message.getType()))
             {
-                ClientSetTargetCommand command = RobotWireProtocol.decodePayload(message, ClientSetTargetCommand.class);
+                ClientSetTargetCommand command =
+                        RobotWireProtocol.decodePayload(message, ClientSetTargetCommand.class);
                 if (command == null)
                 {
                     sendError(client, "bad_request", "Command payload is missing.");
                     return;
                 }
-                synchronized (modelLock)
+                
+                client.model.setTargetPosition(new Point(command.getX(), command.getY()));
+                Logger.debug(LOG_SOURCE, "set_target",
+                        "client=" + client.id + ", x=" + command.getX() + ", y=" + command.getY());
+                broadcastFullStateSnapshot();
+                return;
+            }
+            if (RobotWireProtocol.TYPE_CLIENT_SET_COLOR.equals(message.getType()))
+            {
+                ClientSetColorCommand command =
+                        RobotWireProtocol.decodePayload(message, ClientSetColorCommand.class);
+                if (command == null)
                 {
-                    model.setTargetPosition(new Point(command.getX(), command.getY()));
+                    sendError(client, "bad_request", "Color command payload is missing.");
+                    return;
                 }
-                Logger.debug(LOG_SOURCE, "set_target", "client=" + client.id + ", x=" + command.getX() + ", y=" + command.getY());
-                broadcastStateSnapshot();
+                client.model.setRobotColorRgb(command.getRgb());
+                Logger.debug(LOG_SOURCE, "set_color",
+                        "client=" + client.id + ", rgb=" + command.getRgb());
+                broadcastFullStateSnapshot();
                 return;
             }
             sendError(client, "unknown_type", "Unsupported message type: " + message.getType());
@@ -215,24 +237,27 @@ public class RobotGameServer implements Closeable
 
     private void tickAndBroadcast()
     {
-        synchronized (modelLock)
+        for (ClientConnection client : clients)
         {
-            model.update(TICK_MS);
+            client.model.update(TICK_MS);
         }
         serverTick.incrementAndGet();
-        broadcastStateSnapshot();
+        broadcastFullStateSnapshot();
     }
 
-    private void broadcastStateSnapshot()
+    
+    private void broadcastFullStateSnapshot()
     {
-        RobotState state;
-        synchronized (modelLock)
-        {
-            state = model.getState();
-        }
         long tick = serverTick.get();
-        ServerStateEvent event = ServerStateEvent.fromState(state, tick);
-        String payload = RobotWireProtocol.encodeMessage(RobotWireProtocol.TYPE_SERVER_STATE, event);
+        List<ServerStateEvent> playerStates = new ArrayList<ServerStateEvent>();
+        for (ClientConnection client : clients)
+        {
+            RobotState state = client.model.getState();
+            playerStates.add(ServerStateEvent.fromState(state, tick, client.id));
+        }
+        ServerFullStateEvent fullState = new ServerFullStateEvent(playerStates, tick);
+        String payload = RobotWireProtocol.encodeMessage(
+                RobotWireProtocol.TYPE_SERVER_FULL_STATE, fullState);
         for (ClientConnection client : clients)
         {
             if (!sendRaw(client, payload))
@@ -246,18 +271,6 @@ public class RobotGameServer implements Closeable
     {
         ServerWelcomeEvent event = new ServerWelcomeEvent(client.id);
         sendRaw(client, RobotWireProtocol.encodeMessage(RobotWireProtocol.TYPE_SERVER_WELCOME, event));
-    }
-
-    private void sendStateTo(ClientConnection client)
-    {
-        RobotState state;
-        synchronized (modelLock)
-        {
-            state = model.getState();
-        }
-        long tick = serverTick.get();
-        ServerStateEvent event = ServerStateEvent.fromState(state, tick);
-        sendRaw(client, RobotWireProtocol.encodeMessage(RobotWireProtocol.TYPE_SERVER_STATE, event));
     }
 
     private void sendError(ClientConnection client, String code, String message)
@@ -290,6 +303,8 @@ public class RobotGameServer implements Closeable
         clients.remove(client);
         client.close();
         Logger.info(LOG_SOURCE, "client_disconnected", client.id);
+        
+        broadcastFullStateSnapshot();
     }
 
     private static void closeServerSocket(ServerSocket socket)
@@ -304,7 +319,7 @@ public class RobotGameServer implements Closeable
         }
         catch (IOException ignored)
         {
-            // Nothing to do on shutdown.
+            
         }
     }
 
@@ -315,13 +330,19 @@ public class RobotGameServer implements Closeable
         private final BufferedReader reader;
         private final BufferedWriter writer;
         private final Object writeLock = new Object();
+        
+        final RobotModel model;
 
-        private ClientConnection(String id, Socket socket) throws IOException
+        private ClientConnection(String id, Socket socket,
+                                 double startX, double startY) throws IOException
         {
             this.id = id;
             this.socket = socket;
-            this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-            this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
+            this.model = new RobotModel(startX, startY);
+            this.reader = new BufferedReader(
+                    new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+            this.writer = new BufferedWriter(
+                    new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
         }
 
         @Override
@@ -333,7 +354,7 @@ public class RobotGameServer implements Closeable
             }
             catch (IOException ignored)
             {
-                // Nothing to do on shutdown.
+                
             }
         }
     }

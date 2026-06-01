@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.RobotModelTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-04-16T09:53:32.061Z" hostname="YIUMACJ" time="0.001">
+<testsuite name="model.RobotModelTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-01T23:17:45.421Z" hostname="YIUMACJ" time="0.001">
   <properties/>
-  <testcase name="updateDoesNotMoveWhenTargetReached" classname="model.RobotModelTest" time="0.001"/>
+  <testcase name="updateDoesNotMoveWhenTargetReached" classname="model.RobotModelTest" time="0.0"/>
   <testcase name="normalizedRadiansStayWithinAbsoluteRange" classname="model.RobotModelTest" time="0.0"/>
   <testcase name="updateMovesRobotTowardsTargetAhead" classname="model.RobotModelTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>

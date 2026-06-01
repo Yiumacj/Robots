@@ -4,6 +4,7 @@ public enum AppWindowKey
 {
     LOG("logWindow"),
     GAME("gameWindow"),
+    GAME_SECOND("gameWindow2"),
     COORDINATES("coordinatesWindow"),
     SETTINGS("settingsWindow");
 

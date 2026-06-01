@@ -20,6 +20,6 @@ public class ConsoleLogSink implements LogSink
     @Override
     public void close()
     {
-        // Console stream lifecycle is managed by JVM.
+        
     }
 }

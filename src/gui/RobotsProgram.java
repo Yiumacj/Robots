@@ -12,6 +12,7 @@ import controller.ApplicationController;
 import controller.DefaultApplicationController;
 import controller.DefaultGameController;
 import controller.GameController;
+import controller.LocalMultiplayerGameSession;
 import controller.RemoteGameController;
 import log.Logger;
 import model.AppLocale;
@@ -112,7 +113,20 @@ public class RobotsProgram
         configureOptionPaneTexts(localizationService);
 
         MainApplicationFrame frame = new MainApplicationFrame(localizationService);
-        GameController gameController = createGameController(options, frame, localizationService);
+        GameController gameController;
+        GameController secondGameController;
+        if (options.getMode() == LaunchMode.CLIENT || options.getMode() == LaunchMode.HOST)
+        {
+            gameController = createGameController(options, frame, localizationService);
+            secondGameController = createGameController(options, frame, localizationService);
+        }
+        else
+        {
+            LocalMultiplayerGameSession localSession = new LocalMultiplayerGameSession(2);
+            gameController = localSession.createController(0);
+            secondGameController = localSession.createController(1);
+            Logger.info(LOG_SOURCE, "local_multiplayer", "Using local multiplayer controllers for two robot windows.");
+        }
 
         LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource(), localizationService);
         logWindow.setLocation(10, 10);
@@ -124,6 +138,12 @@ public class RobotsProgram
         gameWindow.setController(gameController);
         gameController.addView(gameWindow);
 
+        GameWindow secondGameWindow = new GameWindow(localizationService);
+        secondGameWindow.setSize(400, 400);
+        secondGameWindow.setLocation(320, 430);
+        secondGameWindow.setController(secondGameController);
+        secondGameController.addView(secondGameWindow);
+
         RobotCoordinatesWindow coordinatesWindow = new RobotCoordinatesWindow(localizationService);
         coordinatesWindow.setLocation(730, 10);
         gameController.addView(coordinatesWindow);
@@ -134,8 +154,10 @@ public class RobotsProgram
         ApplicationController controller = new DefaultApplicationController(
                 frame,
                 gameController,
+                secondGameController,
                 logWindow,
                 gameWindow,
+                secondGameWindow,
                 coordinatesWindow,
                 settingsWindow,
                 localizationService,

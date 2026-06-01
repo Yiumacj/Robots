@@ -10,8 +10,17 @@ public class ServerStateEvent
     private final int targetX;
     private final int targetY;
     private final long serverTick;
+    private final String playerId;
+    private final int robotColorRgb;
 
-    public ServerStateEvent(double robotX, double robotY, double direction, int targetX, int targetY, long serverTick)
+    public ServerStateEvent(double robotX, double robotY, double direction,
+                            int targetX, int targetY, long serverTick, String playerId)
+    {
+        this(robotX, robotY, direction, targetX, targetY, serverTick, playerId, RobotState.DEFAULT_COLOR_RGB);
+    }
+
+    public ServerStateEvent(double robotX, double robotY, double direction,
+                            int targetX, int targetY, long serverTick, String playerId, int robotColorRgb)
     {
         this.robotX = robotX;
         this.robotY = robotY;
@@ -19,9 +28,11 @@ public class ServerStateEvent
         this.targetX = targetX;
         this.targetY = targetY;
         this.serverTick = serverTick;
+        this.playerId = playerId;
+        this.robotColorRgb = robotColorRgb;
     }
 
-    public static ServerStateEvent fromState(RobotState state, long serverTick)
+    public static ServerStateEvent fromState(RobotState state, long serverTick, String playerId)
     {
         return new ServerStateEvent(
                 state.getRobotPositionX(),
@@ -29,16 +40,28 @@ public class ServerStateEvent
                 state.getRobotDirection(),
                 state.getTargetPositionX(),
                 state.getTargetPositionY(),
-                serverTick);
+                serverTick,
+                playerId,
+                state.getRobotColorRgb());
     }
 
     public RobotState toRobotState()
     {
-        return new RobotState(robotX, robotY, direction, targetX, targetY);
+        return new RobotState(robotX, robotY, direction, targetX, targetY, robotColorRgb);
     }
 
     public long getServerTick()
     {
         return serverTick;
+    }
+
+    public String getPlayerId()
+    {
+        return playerId;
+    }
+
+    public int getRobotColorRgb()
+    {
+        return robotColorRgb;
     }
 }

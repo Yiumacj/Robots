@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.Point;
 
 import org.junit.Assert;
@@ -149,6 +150,11 @@ public class DefaultApplicationControllerTest
 
         @Override
         public void setTargetPosition(Point point)
+        {
+        }
+
+        @Override
+        public void setRobotColor(Color color)
         {
         }
 

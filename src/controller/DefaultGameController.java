@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,15 @@ public class DefaultGameController implements GameController
     {
         Logger.debug(LOG_SOURCE, "set_target", "x=" + point.x + ", y=" + point.y);
         model.setTargetPosition(point);
+        publishState();
+    }
+
+    @Override
+    public void setRobotColor(Color color)
+    {
+        if (color == null) return;
+        Logger.debug(LOG_SOURCE, "set_color", "rgb=" + color.getRGB());
+        model.setRobotColorRgb(color.getRGB());
         publishState();
     }
 

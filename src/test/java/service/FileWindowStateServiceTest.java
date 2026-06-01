@@ -50,7 +50,7 @@ public class FileWindowStateServiceTest
 
         FileWindowStateService service = new FileWindowStateService();
         TestMainApplicationFrame frame = new TestMainApplicationFrame();
-        frame.setBounds(7, 8, 9, ~10);
+        frame.setBounds(7, 8, 9, 10);
 
         service.loadWindowState(frame);
 

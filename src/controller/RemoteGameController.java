@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,10 +8,12 @@ import java.util.List;
 
 import gui.RobotStateView;
 import log.Logger;
+import model.MultiPlayerState;
 import model.RobotState;
 import network.RobotGameClient;
 import network.RobotGameClientListener;
 import network.protocol.ServerErrorEvent;
+import network.protocol.ServerFullStateEvent;
 import network.protocol.ServerStateEvent;
 import network.protocol.ServerWelcomeEvent;
 
@@ -23,6 +26,8 @@ public class RemoteGameController implements GameController, RobotGameClientList
     private final List<RobotStateView> views = new ArrayList<RobotStateView>();
     private final NetworkErrorHandler errorHandler;
     private volatile RobotState lastState = DEFAULT_STATE;
+    
+    private volatile String myPlayerId = null;
 
     public RemoteGameController(String host, int port, NetworkErrorHandler errorHandler)
     {
@@ -71,9 +76,20 @@ public class RemoteGameController implements GameController, RobotGameClientList
     }
 
     @Override
+    public void setRobotColor(Color color)
+    {
+        if (color == null) return;
+        Logger.debug(LOG_SOURCE, "set_color", "rgb=" + color.getRGB());
+        if (!client.sendSetColor(color.getRGB()))
+        {
+            reportError("Cannot send color because server connection is not available.");
+        }
+    }
+
+    @Override
     public void tick(double duration)
     {
-        // Tick is controlled by remote server.
+        
     }
 
     @Override
@@ -81,19 +97,55 @@ public class RemoteGameController implements GameController, RobotGameClientList
     {
         if (event != null)
         {
-            Logger.info(LOG_SOURCE, "welcome", "Connected as client " + event.getClientId());
+            myPlayerId = event.getClientId();
+            Logger.info(LOG_SOURCE, "welcome", "Connected as player " + myPlayerId);
         }
     }
 
+    
     @Override
     public void onState(ServerStateEvent event)
     {
-        if (event == null)
-        {
-            return;
-        }
+        if (event == null) return;
         lastState = event.toRobotState();
-        publishState(lastState);
+        publishSingleState(lastState);
+    }
+
+    @Override
+    public void onFullState(ServerFullStateEvent event)
+    {
+        if (event == null) return;
+
+        RobotState ownState = null;
+        List<RobotState> opponents = new ArrayList<RobotState>();
+
+        String pid = myPlayerId;
+        for (ServerStateEvent playerEvent : event.getPlayers())
+        {
+            if (playerEvent == null) continue;
+            if (pid != null && pid.equals(playerEvent.getPlayerId()))
+            {
+                ownState = playerEvent.toRobotState();
+            }
+            else
+            {
+                opponents.add(playerEvent.toRobotState());
+            }
+        }
+
+        
+        if (ownState == null && !event.getPlayers().isEmpty())
+        {
+            ownState = event.getPlayers().get(0).toRobotState();
+        }
+        if (ownState == null)
+        {
+            ownState = DEFAULT_STATE;
+        }
+
+        lastState = ownState;
+        MultiPlayerState multiState = new MultiPlayerState(ownState, opponents);
+        publishMultiState(multiState);
     }
 
     @Override
@@ -111,11 +163,19 @@ public class RemoteGameController implements GameController, RobotGameClientList
         reportError(message);
     }
 
-    private synchronized void publishState(RobotState state)
+    private synchronized void publishSingleState(RobotState state)
     {
         for (RobotStateView view : views)
         {
             view.render(state);
+        }
+    }
+
+    private synchronized void publishMultiState(MultiPlayerState state)
+    {
+        for (RobotStateView view : views)
+        {
+            view.renderMulti(state);
         }
     }
 

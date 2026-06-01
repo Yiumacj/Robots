@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="network.protocol.RobotWireProtocolTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-16T09:53:32.138Z" hostname="YIUMACJ" time="0.001">
+<testsuite name="network.protocol.RobotWireProtocolTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-01T23:17:45.491Z" hostname="YIUMACJ" time="0.001">
   <properties/>
-  <testcase name="encodesAndDecodesSetTargetCommand" classname="network.protocol.RobotWireProtocolTest" time="0.001"/>
-  <testcase name="encodesAndDecodesStateEventWithTick" classname="network.protocol.RobotWireProtocolTest" time="0.0"/>
-  <system-out><![CDATA[[2026-04-16 14:53:32.136][Warning][robot-client-reader-localhost-64658][network.RobotGameClient] disconnected | Connection error: Socket closed
+  <testcase name="encodesAndDecodesSetTargetCommand" classname="network.protocol.RobotWireProtocolTest" time="0.0"/>
+  <testcase name="encodesAndDecodesStateEventWithTick" classname="network.protocol.RobotWireProtocolTest" time="0.001"/>
+  <system-out><![CDATA[[2026-06-02 04:17:45.490][Warning][robot-client-reader-localhost-58918][network.RobotGameClient] disconnected | Connection error: Socket closed
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
